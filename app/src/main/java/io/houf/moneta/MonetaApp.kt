@@ -8,7 +8,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
-import io.houf.moneta.Screen.*
+import io.houf.moneta.Screen.Portfolio
+import io.houf.moneta.Screen.Search
+import io.houf.moneta.component.TopBar
 
 val screens = listOf(Portfolio, Search)
 
@@ -51,7 +53,12 @@ fun MonetaApp(context: Context) {
         NavHost(controller, startDestination = Portfolio.route) {
             screens.forEach { screen ->
                 composable(screen.route) {
-                    screen.content(context)
+                    Column {
+                        TopBar(screen) {
+                            screen.actions(context)
+                        }
+                        screen.content(context)
+                    }
                 }
             }
         }

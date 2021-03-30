@@ -1,5 +1,6 @@
 package io.houf.moneta.activity
 
+import android.app.ActionBar
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toolbar
@@ -8,13 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity as Activity
 import io.houf.moneta.R
 
-open class FragmentActivity(@LayoutRes id: Int, private val fragment: Fragment) : Activity(id) {
+abstract class FragmentActivity(private val fragment: Fragment) : Activity(R.layout.fragment_activity) {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
 
         findViewById<Toolbar>(R.id.topBar).also { topBar ->
             setActionBar(topBar)
 
+            initializeBar(actionBar!!)
             actionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
@@ -22,6 +24,8 @@ open class FragmentActivity(@LayoutRes id: Int, private val fragment: Fragment) 
             .replace(R.id.fragment, fragment)
             .commit()
     }
+
+    abstract fun initializeBar(bar: ActionBar);
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
