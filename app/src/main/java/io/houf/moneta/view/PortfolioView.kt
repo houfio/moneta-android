@@ -11,7 +11,7 @@ import io.houf.moneta.util.openActivity
 
 @Composable
 fun PortfolioView(context: Context) {
-    Price(1000.0)
+    Price(1000.0, -25.0)
     Button(onClick = {
         openActivity(context, ListingActivity(), ListingData(1000, "Bitcoin"))
     }) {

@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Price(value: Double) {
+fun Price(value: Double, change: Double) {
     Row(
         modifier = Modifier
             .padding(vertical = 48.dp)
@@ -19,6 +19,6 @@ fun Price(value: Double) {
     ) {
         Text("€${String.format("%.2f", value)}", fontSize = 32.sp)
         Spacer(modifier = Modifier.width(8.dp))
-        PricePill(1.0)
+        PricePill(change)
     }
 }
