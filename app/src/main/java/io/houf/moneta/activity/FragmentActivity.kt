@@ -1,15 +1,15 @@
 package io.houf.moneta.activity
 
 import android.app.ActionBar
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toolbar
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity as Activity
 import io.houf.moneta.R
+import androidx.fragment.app.FragmentActivity as Activity
 
-abstract class FragmentActivity(private val fragment: Fragment) : Activity(R.layout.fragment_activity) {
+abstract class FragmentActivity(private val fragment: (Intent) -> Fragment) : Activity(R.layout.fragment_activity) {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
 
@@ -21,7 +21,7 @@ abstract class FragmentActivity(private val fragment: Fragment) : Activity(R.lay
         }
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment, fragment)
+            .replace(R.id.fragment, fragment(intent))
             .commit()
     }
 
