@@ -50,8 +50,8 @@ sealed class Screen(
         titleId = R.string.listing,
         icon = Icons.Outlined.Money,
         arguments = listOf(navArgument("id") { type = NavType.IntType }),
-        content = { _, stack, _ ->
-            ListingView(stack.arguments?.getInt("id") ?: -1)
+        content = { controller, stack, _ ->
+            ListingView(stack.arguments?.getInt("id") ?: -1, controller)
         }
     )
 }
