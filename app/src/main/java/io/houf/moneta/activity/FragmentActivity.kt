@@ -13,13 +13,15 @@ abstract class FragmentActivity<T> : Activity(R.layout.fragment_activity) {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
 
-        val data = decode(intent);
+        val data = decode(intent)
 
-        findViewById<Toolbar>(R.id.topBar).also { topBar ->
+        findViewById<Toolbar>(R.id.topBar)?.also { topBar ->
             setActionBar(topBar)
 
-            initializeBar(actionBar!!, data)
-            actionBar?.setDisplayHomeAsUpEnabled(true)
+            actionBar?.also { bar ->
+                initializeBar(bar, data)
+                bar.setDisplayHomeAsUpEnabled(true)
+            }
         }
 
         supportFragmentManager.beginTransaction()

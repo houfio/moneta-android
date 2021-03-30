@@ -7,13 +7,17 @@ import androidx.fragment.app.Fragment
 import io.houf.moneta.R
 import io.houf.moneta.fragment.SettingsFragment
 
-class SettingsData
+data class SettingsData(val currencies: List<String>)
 
 class SettingsActivity : FragmentActivity<SettingsData>() {
-    override fun encode(bundle: Bundle, data: SettingsData) {}
+    override fun encode(bundle: Bundle, data: SettingsData) {
+        bundle.putStringArrayList("currencies", ArrayList(data.currencies))
+    }
 
     override fun decode(intent: Intent): SettingsData {
-        return SettingsData()
+        return SettingsData(
+            currencies = intent.getStringArrayListExtra("currencies")!!.toList()
+        )
     }
 
     override fun initializeBar(bar: ActionBar, data: SettingsData) {
@@ -21,6 +25,6 @@ class SettingsActivity : FragmentActivity<SettingsData>() {
     }
 
     override fun getFragment(data: SettingsData): Fragment {
-        return SettingsFragment()
+        return SettingsFragment(data)
     }
 }
