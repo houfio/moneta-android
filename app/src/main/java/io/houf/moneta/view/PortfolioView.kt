@@ -52,7 +52,7 @@ fun PortfolioView(context: Context) {
                             ListingData(listing, name)
                         )
                     }
-                    .padding(12.dp)
+                    .padding(16.dp)
             ) {
                 Text(name)
                 Text(
