@@ -20,8 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:theme="@style/Theme.Moneta.Blank" />
+        <activity android:name=".activity.SettingsActivity" />
     </application>
 </manifest>
