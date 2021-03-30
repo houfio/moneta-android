@@ -1,4 +1,4 @@
-package io.houf.moneta.ui
+package io.houf.moneta.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

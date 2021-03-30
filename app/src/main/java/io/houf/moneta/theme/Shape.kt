@@ -1,4 +1,4 @@
-package io.houf.moneta.ui
+package io.houf.moneta.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

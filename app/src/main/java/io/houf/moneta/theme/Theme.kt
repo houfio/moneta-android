@@ -1,4 +1,4 @@
-package io.houf.moneta.ui
+package io.houf.moneta.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -7,17 +7,15 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Yellow600,
-    secondary = Blue500
+    primary = Yellow600
 )
 
 private val LightColorPalette = lightColors(
-    primary = Yellow600,
-    secondary = Blue500
+    primary = Yellow600
 )
 
 @Composable
-fun MonetaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun MonetaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {

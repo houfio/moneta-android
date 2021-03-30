@@ -3,6 +3,6 @@
 build/
 captures/
 local.properties
-.DS_Store
+secret.properties
 .externalNativeBuild
 .cxx
