@@ -14,9 +14,9 @@ class SettingsFragment(private val data: SettingsData) : PreferenceFragmentCompa
         val currencies = data.currencies.toTypedArray()
 
         findPreference<ListPreference>("currency")?.apply {
-            setDefaultValue(currencies.first())
             entries = currencies
             entryValues = currencies
+            setDefaultValue(currencies.first())
         }
 
         findPreference<DropDownPreference>("range")?.apply {
