@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import io.houf.moneta.theme.MonetaTheme
 
 class ComposeFragment(var content: @Composable () -> Unit) : Fragment() {
+    constructor() : this({})
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
