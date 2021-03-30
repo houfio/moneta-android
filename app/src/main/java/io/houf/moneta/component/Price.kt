@@ -1,8 +1,6 @@
 package io.houf.moneta.component
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,7 +28,7 @@ fun Price(value: Double, change: Double) {
                 Spacer(Modifier.width(8.dp))
                 PricePill(change)
             }
-            Divider(color = LocalContentColor.current.copy(alpha = 0.1f))
+            Line()
         }
     }
 }

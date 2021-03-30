@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
 import io.houf.moneta.Screen.Portfolio
 import io.houf.moneta.Screen.Search
+import io.houf.moneta.component.Line
 import io.houf.moneta.component.TopBar
 
 val screens = listOf(Portfolio, Search)
@@ -23,7 +24,7 @@ fun MonetaApp(context: Context) {
     Scaffold(
         bottomBar = {
             Column {
-                Divider(color = LocalContentColor.current.copy(alpha = 0.1f))
+                Line()
                 BottomNavigation(
                     backgroundColor = MaterialTheme.colors.background,
                     elevation = 0.dp

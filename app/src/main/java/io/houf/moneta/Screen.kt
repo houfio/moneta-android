@@ -32,7 +32,13 @@ sealed class Screen(
             PortfolioView(context)
         },
         actions = { context ->
-            IconButton(onClick = { openActivity(context, SettingsActivity(), SettingsData(currencies = listOf("Euro", "Dollar"))) }) {
+            IconButton(onClick = {
+                openActivity(
+                    context,
+                    SettingsActivity(),
+                    SettingsData(currencies = listOf("Euro", "Dollar"))
+                )
+            }) {
                 Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
             }
         }
