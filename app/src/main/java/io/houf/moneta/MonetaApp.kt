@@ -37,7 +37,7 @@ fun MonetaApp(context: Context) {
                             icon = { Icon(screen.icon, label) },
                             label = { Text(label) },
                             selectedContentColor = MaterialTheme.colors.primary,
-                            unselectedContentColor = LocalContentColor.current,
+                            unselectedContentColor = LocalContentColor.current.copy(alpha = 0.5f),
                             onClick = {
                                 controller.navigate(screen.route) {
                                     popUpTo = controller.graph.startDestination
