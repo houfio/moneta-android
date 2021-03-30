@@ -17,7 +17,8 @@ import io.houf.moneta.theme.Red500
 fun PricePill(value: Double) {
     val positive = value >= 0
 
-    Text("${if (positive) "+" else "-"}${String.format("%.2f", value)}%",
+    Text(
+        text = "${if (positive) "+" else "-"}${String.format("%.2f", value)}%",
         color = MaterialTheme.colors.onPrimary,
         fontSize = 12.sp,
         modifier = Modifier
