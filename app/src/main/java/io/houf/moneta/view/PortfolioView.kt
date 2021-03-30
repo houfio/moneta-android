@@ -6,11 +6,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
+import io.houf.moneta.component.Price
 import io.houf.moneta.util.openActivity
 
 @Composable
 fun PortfolioView(context: Context) {
-    Text("Portfolio")
+    Price(1000.0)
     Button(onClick = {
         openActivity(context, ListingActivity(), ListingData(1000, "Bitcoin"))
     }) {

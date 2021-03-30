@@ -21,7 +21,7 @@ fun MonetaApp(context: Context) {
     Scaffold(
         bottomBar = {
             Column {
-                Divider(color = LocalContentColor.current.copy(alpha = 0.25f))
+                Divider(color = LocalContentColor.current.copy(alpha = 0.1f))
                 BottomNavigation(
                     backgroundColor = MaterialTheme.colors.background,
                     elevation = 0.dp
