@@ -6,10 +6,9 @@ import androidx.fragment.app.FragmentActivity
 import io.houf.moneta.R
 import io.houf.moneta.fragment.SettingsFragment
 
-class SettingsActivity : FragmentActivity() {
+class SettingsActivity : FragmentActivity(R.layout.settings_activity) {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        setContentView(R.layout.settings_activity)
         setActionBar(findViewById(R.id.topBar))
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -23,7 +22,7 @@ class SettingsActivity : FragmentActivity() {
         if (item.itemId == android.R.id.home) {
             finish()
 
-            return true;
+            return true
         }
 
         return super.onOptionsItemSelected(item)

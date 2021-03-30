@@ -7,13 +7,12 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Moneta">
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Moneta.NoActionBar">
+            android:theme="@style/Theme.Moneta.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
