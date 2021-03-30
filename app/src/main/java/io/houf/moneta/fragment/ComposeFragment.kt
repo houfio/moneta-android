@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import io.houf.moneta.theme.MonetaTheme
-import io.houf.moneta.view.ListingView
 
-class ListingFragment : Fragment() {
+class ComposeFragment(var content: @Composable () -> Unit) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -20,7 +20,7 @@ class ListingFragment : Fragment() {
             setContent {
                 MonetaTheme {
                     Scaffold {
-                        ListingView()
+                        content()
                     }
                 }
             }
