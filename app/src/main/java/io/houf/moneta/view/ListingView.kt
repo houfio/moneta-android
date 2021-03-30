@@ -3,13 +3,13 @@ package io.houf.moneta.view
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import io.houf.moneta.Screen.Search
+import io.houf.moneta.Screen.Listing
 import io.houf.moneta.component.TopBar
 
 @Composable
-fun SearchView() {
+fun ListingView(id: Int) {
     Column {
-        TopBar(Search)
-        Text("Search")
+        TopBar(Listing)
+        Text("Listing $id")
     }
 }

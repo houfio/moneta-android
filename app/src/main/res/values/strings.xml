@@ -3,5 +3,6 @@
     <string name="app_name">Moneta</string>
     <string name="portfolio">Portfolio</string>
     <string name="search">Search</string>
+    <string name="listing">Listing</string>
     <string name="settings">Settings</string>
 </resources>

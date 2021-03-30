@@ -8,30 +8,30 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.navigate
 import io.houf.moneta.R
 import io.houf.moneta.Screen.Portfolio
 import io.houf.moneta.activity.SettingsActivity
+import io.houf.moneta.component.TopBar
 
 @Composable
-fun PortfolioView(context: Context) {
+fun PortfolioView(controller: NavHostController, context: Context) {
     Column {
-        TopAppBar(
-            title = { Text(stringResource(Portfolio.resourceId)) },
-            elevation = 0.dp,
-            backgroundColor = MaterialTheme.colors.background,
-            actions = {
-                IconButton(onClick = {
-                    val intent = Intent(context, SettingsActivity::class.java)
+        TopBar(Portfolio) {
+            IconButton({
+                val intent = Intent(context, SettingsActivity::class.java)
 
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-                    context.startActivity(intent)
-                }) {
-                    Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
-                }
+                context.startActivity(intent)
+            }) {
+                Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
             }
-        )
+        }
         Text("Portfolio")
+        Button(onClick = { controller.navigate("listing/1") }) {
+            Text("Test")
+        }
     }
 }
