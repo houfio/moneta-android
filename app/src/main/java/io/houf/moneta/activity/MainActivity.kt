@@ -3,13 +3,14 @@ package io.houf.moneta.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.google.gson.Gson
 import io.houf.moneta.BuildConfig
 import io.houf.moneta.MonetaApp
 import io.houf.moneta.R
 import io.houf.moneta.theme.MonetaTheme
 import okhttp3.*
 import java.io.IOException
-import java.security.KeyStore
+import io.houf.moneta.model.Listing
 
 class MainActivity : ComponentActivity() {
 
@@ -47,7 +48,13 @@ class MainActivity : ComponentActivity() {
                 // do something on failure
             }
             override fun onResponse(call: Call, response: Response) {
-                println(response.body()?.string())
+                val gson = Gson()
+                val data = response.body()
+                if (data != null) {
+                    val listing: Listing = gson.fromJson(data.string(), Listing::class.java)
+                    print("calling methodx")
+                    print(listing)
+                }
             }
         })
     }

@@ -1,31 +1,36 @@
+package io.houf.moneta.model
+
 data class Listing (
-    val status : Status,
-    val data : List<DataSet>
-        )
-
-data class Status (
-    val timestamp : String,
-    val error_code : Int,
-    val error_message : String?,
-    val elapsed : Int,
-    val credit_count : Int,
-    val notice : String?,
-    val total_count : Int
-        )
-
-data class DataSet (
     val id : Int,
     val name : String,
     val symbol : String,
     val slug : String,
-    val num_market_pairs : Int,
-    val date_added : String,
-    val tags : List<List<Int>>?,
-    val max_supply : Int?,
-    val circulating_supply : Int,
-    val total_supply : Int,
-    val platform : List<String>?,
-    val cmc_rank : Int,
-    val last_updated : String,
-    val quote : List<String>?
+    val cmcRank : Int,
+    val numMarketPairs : Int,
+    val circulatingSupply : Double,
+    val totalSupply : Double,
+    val maxSupply : Double?,
+    val lastUpdated : String,
+    val dateAdded : String,
+    val tags : List<String>,
+    val platform : Platform?,
+    val quote : HashMap<String, Quote>
+        )
+
+data class Platform (
+    val id : Int,
+    val name : String,
+    val symbol : String,
+    val slug : String,
+    val tokenAddress : String
+        )
+
+data class Quote (
+    val price : Double,
+    val volume24H : Double,
+    val percentChange1H : Double,
+    val percentChange24H : Double,
+    val percentChange7D : Double,
+    val marketCap : Double,
+    val lastUpdated : String
         )

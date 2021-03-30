@@ -5,5 +5,5 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun ListingView() {
-    Text("Listing")
+    Text("io.houf.moneta.model.Listing")
 }
