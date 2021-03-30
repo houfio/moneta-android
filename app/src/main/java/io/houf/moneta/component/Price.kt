@@ -12,21 +12,25 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun Price(value: Double, change: Double) {
-    Column {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 48.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "€${String.format("%.2f", value)}",
-                fontSize = 32.sp
-            )
-            Spacer(Modifier.width(8.dp))
-            PricePill(change)
+    BoxWithConstraints {
+        val compact = constraints.maxHeight < 1000
+
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(vertical = if (compact) 16.dp else 48.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "€${String.format("%.2f", value)}",
+                    fontSize = 32.sp
+                )
+                Spacer(Modifier.width(8.dp))
+                PricePill(change)
+            }
+            Divider(color = LocalContentColor.current.copy(alpha = 0.1f))
         }
-        Divider(color = LocalContentColor.current.copy(alpha = 0.1f))
     }
 }
