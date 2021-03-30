@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
 import io.houf.moneta.Screen.*
 
-val screens = listOf(Portfolio, Search, Listing)
+val screens = listOf(Portfolio, Search)
 
 @Composable
 fun MonetaApp(context: Context) {
@@ -27,7 +27,7 @@ fun MonetaApp(context: Context) {
                     val navigationState by controller.currentBackStackEntryAsState()
                     val currentRoute = navigationState?.arguments?.getString(KEY_ROUTE)
 
-                    screens.filter { screen -> screen.navigable }.forEach { screen ->
+                    screens.forEach { screen ->
                         val label = stringResource(screen.titleId)
 
                         BottomNavigationItem(
@@ -50,8 +50,8 @@ fun MonetaApp(context: Context) {
     ) {
         NavHost(controller, startDestination = Portfolio.route) {
             screens.forEach { screen ->
-                composable(screen.route, screen.arguments) { stack ->
-                    screen.content(controller, stack, context)
+                composable(screen.route) {
+                    screen.content(context)
                 }
             }
         }

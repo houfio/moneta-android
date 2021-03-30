@@ -13,17 +13,11 @@ import io.houf.moneta.Screen
 @Composable
 fun TopBar(
     screen: Screen,
-    controller: NavHostController? = null,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
         title = { Text(stringResource(screen.titleId)) },
         elevation = 0.dp,
-        navigationIcon = if (controller == null) null else ({
-            IconButton(onClick = { controller.navigateUp() }) {
-                Icon(Icons.Default.ArrowBack, "back")
-            }
-        }),
         backgroundColor = MaterialTheme.colors.background,
         actions = actions
     )

@@ -12,26 +12,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import io.houf.moneta.R
 import io.houf.moneta.Screen.Portfolio
+import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.component.TopBar
+import io.houf.moneta.util.openActivity
 
 @Composable
-fun PortfolioView(controller: NavHostController, context: Context) {
+fun PortfolioView(context: Context) {
     Column {
         TopBar(Portfolio) {
-            IconButton({
-                val intent = Intent(context, SettingsActivity::class.java)
-
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
-                context.startActivity(intent)
-            }) {
+            IconButton(onClick = { openActivity(context, SettingsActivity::class.java) }) {
                 Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
             }
         }
         Text("Portfolio")
-        Button(onClick = { controller.navigate("listing/1") }) {
-            Text("Test")
+        Button(onClick = { openActivity(context, ListingActivity::class.java) }) {
+            Text("Open listing")
         }
     }
 }
