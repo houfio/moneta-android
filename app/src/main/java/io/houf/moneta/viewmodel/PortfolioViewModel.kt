@@ -1,27 +1,20 @@
 package io.houf.moneta.viewmodel
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModel
-import com.android.volley.RequestQueue
-import io.houf.moneta.model.ListingModel
-import io.houf.moneta.model.ListingResponseModel
-import io.houf.moneta.util.add
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.houf.moneta.service.ApiService
+import javax.inject.Inject
 
-class PortfolioViewModel(queue: RequestQueue) : ViewModel() {
-    var listings by mutableStateOf<List<ListingModel>>(listOf())
-        private set
-
+@HiltViewModel
+class PortfolioViewModel @Inject constructor(private val api: ApiService) : ViewModel() {
     val value = 1000.0
     val change = 25.0
 
-    init {
-        queue.add<ListingResponseModel>("cryptocurrency/listings/latest", {}) { data ->
-            Log.d("MONETA", "Fetched ${data.data.size} listings")
+    @Composable
+    fun listings() = api.listings.observeAsState(listOf())
 
-            listings = data.data
-        }
-    }
+    @Composable
+    fun currencies() = api.currencies.observeAsState(listOf())
 }

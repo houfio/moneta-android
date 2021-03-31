@@ -1,8 +1,12 @@
 package io.houf.moneta.util
 
-import android.net.Uri
+import android.content.Context
 import android.util.Log
-import com.android.volley.*
+import android.widget.Toast
+import com.android.volley.NetworkResponse
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
@@ -14,13 +18,15 @@ private val gson = GsonBuilder()
     .create()
 
 class ApiRequest<T>(
+    context: Context,
     url: String,
     private val cls: Class<T>,
-    onError: (VolleyError) -> Unit,
     private val onSuccess: (T) -> Unit
 ) : Request<T>(Method.GET, url, { error ->
-    Log.d("MONETA", error.localizedMessage ?: "Unknown request error")
-    onError(error)
+    val message = error.localizedMessage ?: "Unknown request error";
+
+    Log.d("MONETA", message)
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }) {
     override fun getHeaders() = mutableMapOf("X-CMC_PRO_API_KEY" to BuildConfig.API_KEY)
 
@@ -41,21 +47,4 @@ class ApiRequest<T>(
             Response.error(VolleyError(e))
         }
     }
-}
-
-inline fun <reified T> RequestQueue.add(
-    url: String,
-    noinline onError: (VolleyError) -> Unit,
-    noinline onDone: (T) -> Unit
-) {
-    val builder = Uri.Builder()
-        .scheme("https")
-        .authority("pro-api.coinmarketcap.com")
-        .appendPath("v1")
-
-    url.split("/").forEach { path ->
-        builder.appendPath(path)
-    }
-
-    this.add(ApiRequest(builder.toString(), T::class.java, onError, onDone))
 }

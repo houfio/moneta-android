@@ -3,7 +3,7 @@ package io.houf.moneta.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-data class ListingResponseModel(
+data class ListingsModel(
     val data: List<ListingModel>
 )
 

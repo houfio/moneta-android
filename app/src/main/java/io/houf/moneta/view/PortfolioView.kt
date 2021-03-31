@@ -10,37 +10,56 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import io.houf.moneta.R
+import io.houf.moneta.Screen.Portfolio
 import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
-import io.houf.moneta.util.LocalQueue
-import io.houf.moneta.util.ViewModelFactory
+import io.houf.moneta.activity.SettingsActivity
+import io.houf.moneta.activity.SettingsData
 import io.houf.moneta.util.openActivity
 import io.houf.moneta.view.component.Price
+import io.houf.moneta.view.component.TopBar
 import io.houf.moneta.viewmodel.PortfolioViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PortfolioView() {
-    val queue = LocalQueue.current
-    val viewModel = viewModel<PortfolioViewModel>(factory = ViewModelFactory(queue))
+fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
+    val listings by viewModel.listings()
+    val currencies by viewModel.currencies()
+    val context = LocalContext.current
 
+    TopBar(Portfolio) {
+        IconButton({
+            openActivity(
+                context,
+                SettingsActivity::class.java,
+                SettingsData(currencies)
+            )
+        }) {
+            Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
+        }
+    }
     Price(viewModel.value, viewModel.change)
     LazyVerticalGrid(
         cells = GridCells.Adaptive(minSize = 192.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
-        items(viewModel.listings) { listing ->
-            val context = LocalContext.current
-
+        items(listings) { listing ->
             Column(
                 modifier = Modifier
                     .padding(8.dp)
