@@ -1,15 +1,12 @@
 package io.houf.moneta.util
 
-import android.content.Context
 import android.net.Uri
-import android.widget.Toast
+import android.util.Log
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonSyntaxException
 import io.houf.moneta.BuildConfig
-import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 
 private val gson = GsonBuilder()
@@ -17,16 +14,17 @@ private val gson = GsonBuilder()
     .create()
 
 class ApiRequest<T>(
-    context: Context,
     url: String,
     private val cls: Class<T>,
-    private val listener: (T) -> Unit
+    onError: (VolleyError) -> Unit,
+    private val onSuccess: (T) -> Unit
 ) : Request<T>(Method.GET, url, { error ->
-    Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
+    Log.d("MONETA", error.localizedMessage ?: "Unknown request error")
+    onError(error)
 }) {
     override fun getHeaders() = mutableMapOf("X-CMC_PRO_API_KEY" to BuildConfig.API_KEY)
 
-    override fun deliverResponse(response: T) = listener(response)
+    override fun deliverResponse(response: T) = onSuccess(response)
 
     override fun parseNetworkResponse(response: NetworkResponse?): Response<T> {
         return try {
@@ -39,15 +37,17 @@ class ApiRequest<T>(
                 gson.fromJson(json, cls),
                 HttpHeaderParser.parseCacheHeaders(response)
             )
-        } catch (e: UnsupportedEncodingException) {
-            Response.error(ParseError(e))
-        } catch (e: JsonSyntaxException) {
-            Response.error(ParseError(e))
+        } catch (e: Exception) {
+            Response.error(VolleyError(e))
         }
     }
 }
 
-inline fun <reified T> RequestQueue.add(context: Context, url: String, noinline listener: (T) -> Unit) {
+inline fun <reified T> RequestQueue.add(
+    url: String,
+    noinline onError: (VolleyError) -> Unit,
+    noinline onDone: (T) -> Unit
+) {
     val builder = Uri.Builder()
         .scheme("https")
         .authority("pro-api.coinmarketcap.com")
@@ -57,5 +57,5 @@ inline fun <reified T> RequestQueue.add(context: Context, url: String, noinline 
         builder.appendPath(path)
     }
 
-    this.add(ApiRequest(context, builder.toString(), T::class.java, listener))
+    this.add(ApiRequest(builder.toString(), T::class.java, onError, onDone))
 }

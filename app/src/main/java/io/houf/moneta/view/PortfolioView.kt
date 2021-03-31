@@ -1,6 +1,5 @@
 package io.houf.moneta.view
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,29 +21,26 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
-import io.houf.moneta.component.Price
-import io.houf.moneta.local.LocalQueue
+import io.houf.moneta.util.LocalQueue
 import io.houf.moneta.util.ViewModelFactory
 import io.houf.moneta.util.openActivity
+import io.houf.moneta.view.component.Price
 import io.houf.moneta.viewmodel.PortfolioViewModel
-import java.lang.ref.WeakReference
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PortfolioView() {
-    val context = LocalContext.current
     val queue = LocalQueue.current
-    val viewModel = viewModel<PortfolioViewModel>(
-        factory = ViewModelFactory(WeakReference(context), queue)
-    )
+    val viewModel = viewModel<PortfolioViewModel>(factory = ViewModelFactory(queue))
 
     Price(viewModel.value, viewModel.change)
     LazyVerticalGrid(
         cells = GridCells.Adaptive(minSize = 192.dp),
-        contentPadding = PaddingValues(16.dp),
-        modifier = Modifier.animateContentSize()
+        contentPadding = PaddingValues(16.dp)
     ) {
         items(viewModel.listings) { listing ->
+            val context = LocalContext.current
+
             Column(
                 modifier = Modifier
                     .padding(8.dp)
@@ -54,7 +50,7 @@ fun PortfolioView() {
                         openActivity(
                             context,
                             ListingActivity::class.java,
-                            ListingData(listing.id.toInt(), listing.name)
+                            ListingData(listing)
                         )
                     }
                     .padding(16.dp)

@@ -1,4 +1,4 @@
-package io.houf.moneta.local
+package io.houf.moneta.util
 
 import androidx.compose.runtime.compositionLocalOf
 import com.android.volley.RequestQueue

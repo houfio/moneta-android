@@ -1,4 +1,4 @@
-package io.houf.moneta.component
+package io.houf.moneta.view.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -11,8 +11,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.houf.moneta.theme.Green500
-import io.houf.moneta.theme.Red500
+import io.houf.moneta.view.theme.Green500
+import io.houf.moneta.view.theme.Red500
 
 @Composable
 fun PricePill(value: Double) {

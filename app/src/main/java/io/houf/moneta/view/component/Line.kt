@@ -1,4 +1,4 @@
-package io.houf.moneta.component
+package io.houf.moneta.view.component
 
 import androidx.compose.material.Divider
 import androidx.compose.material.LocalContentColor

@@ -1,4 +1,4 @@
-package io.houf.moneta.component
+package io.houf.moneta.view.component
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.MaterialTheme

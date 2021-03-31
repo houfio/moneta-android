@@ -15,9 +15,9 @@ import androidx.navigation.compose.*
 import com.android.volley.toolbox.Volley
 import io.houf.moneta.Screen.Portfolio
 import io.houf.moneta.Screen.Search
-import io.houf.moneta.component.Line
-import io.houf.moneta.component.TopBar
-import io.houf.moneta.local.LocalQueue
+import io.houf.moneta.util.LocalQueue
+import io.houf.moneta.view.component.Line
+import io.houf.moneta.view.component.TopBar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 val screens = listOf(Portfolio, Search)

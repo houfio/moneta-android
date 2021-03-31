@@ -1,4 +1,4 @@
-package io.houf.moneta.fragment
+package io.houf.moneta.activity.fragment
 
 import android.os.Bundle
 import androidx.preference.DropDownPreference

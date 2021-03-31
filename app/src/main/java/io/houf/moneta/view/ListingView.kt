@@ -6,5 +6,7 @@ import io.houf.moneta.activity.ListingData
 
 @Composable
 fun ListingView(data: ListingData) {
-    Text("Listing ${data.id}")
+    val listing = data.listing
+
+    Text("Listing ${listing.id}")
 }

@@ -1,6 +1,5 @@
 package io.houf.moneta.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,12 +9,8 @@ import com.android.volley.RequestQueue
 import io.houf.moneta.model.ListingModel
 import io.houf.moneta.model.ListingResponseModel
 import io.houf.moneta.util.add
-import java.lang.ref.WeakReference
 
-class PortfolioViewModel(
-    context: WeakReference<Context>,
-    private val queue: RequestQueue
-) : ViewModel() {
+class PortfolioViewModel(queue: RequestQueue) : ViewModel() {
     var listings by mutableStateOf<List<ListingModel>>(listOf())
         private set
 
@@ -23,12 +18,10 @@ class PortfolioViewModel(
     val change = 25.0
 
     init {
-        context.get()?.apply {
-            queue.add<ListingResponseModel>(this, "cryptocurrency/listings/latest") { data ->
-                Log.d("MONETA", "Fetched ${data.data.size} listings")
+        queue.add<ListingResponseModel>("cryptocurrency/listings/latest", {}) { data ->
+            Log.d("MONETA", "Fetched ${data.data.size} listings")
 
-                listings = data.data
-            }
+            listings = data.data
         }
     }
 }

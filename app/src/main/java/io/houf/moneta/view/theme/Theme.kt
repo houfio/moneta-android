@@ -1,4 +1,4 @@
-package io.houf.moneta.theme
+package io.houf.moneta.view.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

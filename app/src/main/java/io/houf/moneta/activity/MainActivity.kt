@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import io.houf.moneta.MonetaApp
 import io.houf.moneta.R
-import io.houf.moneta.theme.MonetaTheme
+import io.houf.moneta.view.theme.MonetaTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(state: Bundle?) {
