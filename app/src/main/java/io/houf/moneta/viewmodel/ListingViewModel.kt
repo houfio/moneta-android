@@ -11,14 +11,15 @@ import io.houf.moneta.service.SettingsService
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class ListingViewModel @Inject constructor(
     private val api: ApiService,
     private val settings: SettingsService
 ) : ViewModel() {
-    fun refresh() = api.fetchListings()
+    fun price(listing: ListingModel): Double {
+        val quote = listing.quote.values.first()
 
-    @Composable
-    fun listings() = api.listings.observeAsState(listOf())
+        return quote.price
+    }
 
     @Composable
     fun change(listing: ListingModel) = Transformations.map(settings.range) { range ->
@@ -30,4 +31,9 @@ class SearchViewModel @Inject constructor(
             else -> quote.percentChange24h
         }
     }.observeAsState(0.0)
+
+    @Composable
+    fun sign(listing: ListingModel) = Transformations.map(api.currencies) { currencies ->
+        currencies.find { it.symbol == listing.quote.keys.first() }?.sign ?: "€"
+    }.observeAsState("")
 }

@@ -36,6 +36,8 @@ fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
     }
     LazyColumn {
         items(listings) { listing ->
+            val change by viewModel.change(listing)
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -44,7 +46,7 @@ fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
             ) {
                 Text(listing.name)
                 Spacer(Modifier.weight(1f))
-                Pill(viewModel.change(listing))
+                Pill(change)
                 Icon(
                     imageVector = Icons.Outlined.ChevronRight,
                     contentDescription = "",

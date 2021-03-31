@@ -41,7 +41,6 @@ class ApiService(
         url = "fiat/map",
         cacheKey = "currencies",
         skipCache = skipCache,
-        query = mapOf("convert" to settings.currency),
         onSuccess = { _currencies.value = it.data }
     )
 
@@ -49,6 +48,7 @@ class ApiService(
         url = "cryptocurrency/listings/latest",
         cacheKey = "listings",
         skipCache = skipCache,
+        query = mapOf("convert" to settings.currency.value!!),
         onSuccess = { _listings.value = it.data }
     )
 
@@ -63,8 +63,8 @@ class ApiService(
             var result: T? = null
 
             if (!skipCache) {
-                database.cache().getCache(cacheKey)?.apply {
-                    Log.d("MONETA", "Decoding response from cache: $data")
+                database.cache().get(cacheKey)?.apply {
+                    Log.d("moneta.cache", "Decoding cached response: $data")
 
                     result = decodeJson(data, T::class.java)
                 }
@@ -105,7 +105,7 @@ class ApiService(
 
     private fun cacheJson(json: String, cacheKey: String) {
         GlobalScope.launch {
-            database.cache().insertCache(Cache(cacheKey, json))
+            database.cache().insert(Cache(cacheKey, json))
         }
     }
 }

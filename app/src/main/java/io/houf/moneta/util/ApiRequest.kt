@@ -20,7 +20,7 @@ class ApiRequest<T>(
 ) : Request<T>(Method.GET, url, { error ->
     val message = error.localizedMessage ?: "Unknown request error";
 
-    Log.d("MONETA", message)
+    Log.d("moneta.request", "Caught network error: $message")
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }) {
     override fun getHeaders() = mutableMapOf("X-CMC_PRO_API_KEY" to BuildConfig.API_KEY)
@@ -28,13 +28,13 @@ class ApiRequest<T>(
     override fun deliverResponse(response: T) = onSuccess(response)
 
     override fun parseNetworkResponse(response: NetworkResponse?): Response<T> {
-        Log.d("MONETA", "Decoding API response")
-
         return try {
             val json = String(
                 response?.data ?: ByteArray(0),
                 Charset.forName(HttpHeaderParser.parseCharset(response?.headers))
             )
+
+            Log.d("moneta.request", "Decoding API response: $json")
 
             onCache?.invoke(json)
 

@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Price(value: Double, change: Double) {
+fun Price(value: Double, change: Double, sign: String, blur: Boolean = false) {
     BoxWithConstraints {
         val compact = constraints.maxHeight < 1000
 
@@ -22,7 +22,7 @@ fun Price(value: Double, change: Double) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "€${String.format("%.2f", value)}",
+                    text = "$sign${if (blur) "-" else String.format("%.2f", value)}",
                     fontSize = 32.sp
                 )
                 Spacer(Modifier.width(8.dp))

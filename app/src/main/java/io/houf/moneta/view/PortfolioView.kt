@@ -41,6 +41,7 @@ import io.houf.moneta.viewmodel.PortfolioViewModel
 fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val listings by viewModel.listings()
     val currencies by viewModel.currencies()
+    val blur by viewModel.blur()
     val context = LocalContext.current
 
     TopBar(Portfolio) {
@@ -54,9 +55,14 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
             Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
         }
     }
-    Price(viewModel.value, viewModel.change)
+    Price(
+        value = viewModel.value,
+        change = viewModel.change,
+        sign = "€",
+        blur = blur
+    )
     LazyVerticalGrid(
-        cells = GridCells.Adaptive(minSize = 192.dp),
+        cells = GridCells.Adaptive(192.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(listings) { listing ->

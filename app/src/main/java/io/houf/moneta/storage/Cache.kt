@@ -11,8 +11,8 @@ data class Cache(
 @Dao
 interface CacheDao {
     @Query("select * from cache where id = :id")
-    suspend fun getCache(id: String): Cache?
+    suspend fun get(id: String): Cache?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCache(cache: Cache)
+    suspend fun insert(cache: Cache)
 }

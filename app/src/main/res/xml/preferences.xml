@@ -4,6 +4,7 @@
     <PreferenceCategory android:title="@string/settings_general">
 
         <ListPreference
+            android:defaultValue="eur"
             android:key="currency"
             android:title="@string/settings_currency"
             app:useSimpleSummaryProvider="true" />
