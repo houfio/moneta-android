@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
@@ -18,7 +19,8 @@ import io.houf.moneta.component.TopBar
 val screens = listOf(Portfolio, Search)
 
 @Composable
-fun MonetaApp(context: Context) {
+fun MonetaApp() {
+    val context = LocalContext.current
     val controller = rememberNavController()
 
     Scaffold(
@@ -58,9 +60,9 @@ fun MonetaApp(context: Context) {
                 composable(screen.route) {
                     Column(Modifier.padding(bottom = padding.calculateBottomPadding())) {
                         TopBar(screen) {
-                            screen.actions(context)
+                            screen.actions()
                         }
-                        screen.content(context)
+                        screen.content()
                     }
                 }
             }

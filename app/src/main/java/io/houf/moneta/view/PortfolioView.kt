@@ -1,6 +1,5 @@
 package io.houf.moneta.view
 
-import android.content.Context
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -17,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.houf.moneta.activity.ListingActivity
@@ -30,7 +30,7 @@ val amounts = List(listings.size) { Random.nextInt(1, 100) }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PortfolioView(context: Context) {
+fun PortfolioView() {
     Price(1000.0, -25.0)
     LazyVerticalGrid(
         cells = GridCells.Adaptive(minSize = 192.dp),
@@ -39,6 +39,7 @@ fun PortfolioView(context: Context) {
     ) {
         items(listings) { listing ->
             val name = "Coin ${listing + 1}"
+            val context = LocalContext.current
 
             Column(
                 modifier = Modifier
@@ -48,7 +49,7 @@ fun PortfolioView(context: Context) {
                     .clickable {
                         openActivity(
                             context,
-                            ListingActivity(),
+                            ListingActivity::class.java,
                             ListingData(listing, name)
                         )
                     }

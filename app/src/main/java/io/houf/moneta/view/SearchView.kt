@@ -1,6 +1,5 @@
 package io.houf.moneta.view
 
-import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +14,7 @@ import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
@@ -22,10 +22,11 @@ import io.houf.moneta.component.PricePill
 import io.houf.moneta.util.openActivity
 
 @Composable
-fun SearchView(context: Context) {
+fun SearchView() {
     LazyColumn {
         items(listings) { listing ->
             val name = "Coin ${listing + 1}"
+            val context = LocalContext.current
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -33,7 +34,7 @@ fun SearchView(context: Context) {
                     .clickable {
                         openActivity(
                             context,
-                            ListingActivity(),
+                            ListingActivity::class.java,
                             ListingData(listing, name)
                         )
                     }
