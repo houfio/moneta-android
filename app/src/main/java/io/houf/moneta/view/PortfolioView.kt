@@ -1,5 +1,6 @@
 package io.houf.moneta.view
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -22,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
 import io.houf.moneta.component.Price
+import io.houf.moneta.local.LocalQueue
+import io.houf.moneta.model.ListingModel
+import io.houf.moneta.util.add
 import io.houf.moneta.util.openActivity
 import kotlin.random.Random
 
@@ -31,6 +35,12 @@ val amounts = List(listings.size) { Random.nextInt(1, 100) }
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PortfolioView() {
+    val context = LocalContext.current
+
+    LocalQueue.current.add<ListingModel>(context, "cryptocurrency/listings/latest") { data ->
+        Log.d("MONETA", "Fetched ${data.data.size} rows")
+    }
+
     Price(1000.0, -25.0)
     LazyVerticalGrid(
         cells = GridCells.Adaptive(minSize = 192.dp),
@@ -39,7 +49,6 @@ fun PortfolioView() {
     ) {
         items(listings) { listing ->
             val name = "Coin ${listing + 1}"
-            val context = LocalContext.current
 
             Column(
                 modifier = Modifier
