@@ -11,7 +11,6 @@ import io.houf.moneta.model.CurrencyModel
 import io.houf.moneta.model.ListingModel
 import io.houf.moneta.model.ListingsModel
 import io.houf.moneta.storage.Cache
-import io.houf.moneta.storage.CacheDao
 import io.houf.moneta.util.ApiRequest
 import io.houf.moneta.util.decodeJson
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +18,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ApiService(private val context: Context, private val cache: CacheDao) {
+class ApiService(private val context: Context, private val database: DatabaseService) {
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
     private var _currencies = MutableLiveData(listOf<CurrencyModel>())
@@ -58,7 +57,7 @@ class ApiService(private val context: Context, private val cache: CacheDao) {
             var result: T? = null
 
             if (!skipCache) {
-                cache.getCache(cacheKey)?.apply {
+                database.cache().getCache(cacheKey)?.apply {
                     result = decodeJson(data, T::class.java)
                 }
             }
@@ -87,7 +86,7 @@ class ApiService(private val context: Context, private val cache: CacheDao) {
                         onSuccess = onSuccess,
                         onCache = { json ->
                             GlobalScope.launch {
-                                cache.insertCache(Cache(cacheKey, json))
+                                database.cache().insertCache(Cache(cacheKey, json))
                             }
                         }
                     ))

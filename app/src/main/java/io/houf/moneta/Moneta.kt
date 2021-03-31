@@ -10,8 +10,7 @@ import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.houf.moneta.service.ApiService
-import io.houf.moneta.storage.CacheDao
-import io.houf.moneta.storage.Database
+import io.houf.moneta.service.DatabaseService
 
 @HiltAndroidApp
 class Moneta : Application()
@@ -21,11 +20,9 @@ class Moneta : Application()
 class MonetaModule {
     @Provides
     fun provideDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, Database::class.java, "Moneta").build()
+        Room.databaseBuilder(context, DatabaseService::class.java, "Moneta").build()
 
     @Provides
-    fun provideCacheDao(database: Database) = database.cacheDao()
-
-    @Provides
-    fun provideApiService(@ApplicationContext context: Context, cache: CacheDao) = ApiService(context, cache)
+    fun provideApiService(@ApplicationContext context: Context, database: DatabaseService) =
+        ApiService(context, database)
 }
