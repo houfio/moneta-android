@@ -10,11 +10,16 @@ import io.houf.moneta.model.CurrenciesModel
 import io.houf.moneta.model.CurrencyModel
 import io.houf.moneta.model.ListingModel
 import io.houf.moneta.model.ListingsModel
+import io.houf.moneta.storage.Cache
+import io.houf.moneta.storage.CacheDao
 import io.houf.moneta.util.ApiRequest
-import javax.inject.Singleton
+import io.houf.moneta.util.decodeJson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-@Singleton
-class ApiService(private val context: Context) {
+class ApiService(private val context: Context, private val cache: CacheDao) {
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
     private var _currencies = MutableLiveData(listOf<CurrencyModel>())
@@ -24,38 +29,70 @@ class ApiService(private val context: Context) {
     val listings: LiveData<List<ListingModel>> = _listings
 
     init {
-        /*getCurrencies(true) { data ->
-            _currencies.value = data.data
-        }
-        getListings(true) { data ->
-            _listings.value = data.data
-        }*/
+        fetchCurrencies(false)
+        fetchListings(false)
     }
 
-    fun getCurrencies(cache: Boolean = false, onDone: (CurrenciesModel) -> Unit) =
-        queue("fiat/map", onDone)
+    fun fetchCurrencies(skipCache: Boolean = true) = queue<CurrenciesModel>(
+        url = "fiat/map",
+        cacheKey = "currencies",
+        skipCache = skipCache,
+        onSuccess = { _currencies.value = it.data }
+    )
 
-    fun getListings(cache: Boolean = false, onDone: (ListingsModel) -> Unit) =
-        queue("cryptocurrency/listings/latest", onDone)
+    fun fetchListings(skipCache: Boolean = true) = queue<ListingsModel>(
+        url = "cryptocurrency/listings/latest",
+        cacheKey = "listings",
+        skipCache = skipCache,
+        onSuccess = { _listings.value = it.data }
+    )
 
     private inline fun <reified T> queue(
         url: String,
-        noinline onDone: (T) -> Unit,
-        query: Map<String, String> = mapOf()
+        cacheKey: String,
+        skipCache: Boolean,
+        query: Map<String, String> = mapOf(),
+        noinline onSuccess: (T) -> Unit
     ) {
-        val builder = Uri.Builder()
-            .scheme("https")
-            .authority("pro-api.coinmarketcap.com")
-            .appendPath("v1")
+        GlobalScope.launch {
+            var result: T? = null
 
-        url.split("/").forEach { path ->
-            builder.appendPath(path)
+            if (!skipCache) {
+                cache.getCache(cacheKey)?.apply {
+                    result = decodeJson(data, T::class.java)
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                if (result != null) {
+                    onSuccess(result!!)
+                } else {
+                    val builder = Uri.Builder()
+                        .scheme("https")
+                        .authority("pro-api.coinmarketcap.com")
+                        .appendPath("v1")
+
+                    url.split("/").forEach { path ->
+                        builder.appendPath(path)
+                    }
+
+                    query.forEach { (key, value) ->
+                        builder.appendQueryParameter(key, value)
+                    }
+
+                    queue.add(ApiRequest(
+                        context = context,
+                        url = builder.toString(),
+                        cls = T::class.java,
+                        onSuccess = onSuccess,
+                        onCache = { json ->
+                            GlobalScope.launch {
+                                cache.insertCache(Cache(cacheKey, json))
+                            }
+                        }
+                    ))
+                }
+            }
         }
-
-        query.forEach { (key, value) ->
-            builder.appendQueryParameter(key, value)
-        }
-
-        queue.add(ApiRequest(context, builder.toString(), T::class.java, onDone))
     }
 }
