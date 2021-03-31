@@ -1,22 +1,26 @@
 package io.houf.moneta.fragment
 
 import android.os.Bundle
-import androidx.preference.Preference
+import androidx.preference.DropDownPreference
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import io.houf.moneta.R
+import io.houf.moneta.activity.SettingsData
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment(private val data: SettingsData) : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val context = preferenceManager.context
-        val screen = preferenceManager.createPreferenceScreen(context)
+        setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val simplePreference = Preference(context).apply {
-            key = "key"
-            title = "Title"
-            summary = "Summary"
+        val currencies = data.currencies.toTypedArray()
+
+        findPreference<ListPreference>("currency")?.apply {
+            entries = currencies
+            entryValues = currencies
+            setDefaultValue(currencies.first())
         }
 
-        screen.addPreference(simplePreference)
-
-        preferenceScreen = screen
+        findPreference<DropDownPreference>("range")?.apply {
+            setDefaultValue(entryValues.first())
+        }
     }
 }

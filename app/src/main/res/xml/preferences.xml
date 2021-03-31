@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_general">
+
+        <ListPreference
+            android:key="currency"
+            android:title="@string/settings_currency"
+            app:useSimpleSummaryProvider="true" />
+
+        <DropDownPreference
+            android:entries="@array/range_names"
+            android:entryValues="@array/range_names"
+            android:key="range"
+            android:title="@string/settings_range"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/portfolio">
+
+        <CheckBoxPreference
+            android:key="blur"
+            android:summary="@string/settings_blur_summary"
+            android:title="@string/settings_blur" />
+    </PreferenceCategory>
+</PreferenceScreen>

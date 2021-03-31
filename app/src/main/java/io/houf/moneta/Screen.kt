@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import io.houf.moneta.activity.SettingsActivity
+import io.houf.moneta.activity.SettingsData
 import io.houf.moneta.util.openActivity
 import io.houf.moneta.view.PortfolioView
 import io.houf.moneta.view.SearchView
@@ -31,7 +32,13 @@ sealed class Screen(
             PortfolioView(context)
         },
         actions = { context ->
-            IconButton(onClick = { openActivity(context, SettingsActivity::class.java) }) {
+            IconButton(onClick = {
+                openActivity(
+                    context,
+                    SettingsActivity(),
+                    SettingsData(currencies = listOf("Euro", "Dollar"))
+                )
+            }) {
                 Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
             }
         }
