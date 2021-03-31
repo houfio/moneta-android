@@ -18,7 +18,7 @@ class ApiRequest<T>(
     private val onSuccess: (T) -> Unit,
     private val onCache: ((String) -> Unit)? = null
 ) : Request<T>(Method.GET, url, { error ->
-    val message = error.localizedMessage ?: "Unknown request error";
+    val message = error.localizedMessage ?: "Unknown request error"
 
     Log.d("moneta.request", "Caught network error: $message")
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()

@@ -7,11 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 
-class SettingsService(private val context: Context) :
-    SharedPreferences.OnSharedPreferenceChangeListener {
-    private val settings
-        get() = PreferenceManager.getDefaultSharedPreferences(context)
-
+class SettingsService(context: Context) : SharedPreferences.OnSharedPreferenceChangeListener {
     private var _currency = MutableLiveData("")
     val currency: LiveData<String> = _currency
 
@@ -22,8 +18,10 @@ class SettingsService(private val context: Context) :
     val blur: LiveData<Boolean> = _blur
 
     init {
+        val settings = PreferenceManager.getDefaultSharedPreferences(context)
+
         settings.registerOnSharedPreferenceChangeListener(this)
-        readSettings()
+        readSettings(settings)
     }
 
     override fun onSharedPreferenceChanged(settings: SharedPreferences, key: String?) {
@@ -33,10 +31,10 @@ class SettingsService(private val context: Context) :
 
         Log.d("moneta.settings", "Changed setting: $key")
 
-        readSettings()
+        readSettings(settings)
     }
 
-    private fun readSettings() {
+    private fun readSettings(settings: SharedPreferences) {
         _currency.value = settings.getString("currency", null) ?: "eur"
         _range.value = settings.getString("range", null) ?: "24h"
         _blur.value = settings.getBoolean("blur", false)
