@@ -1,6 +1,5 @@
 package io.houf.moneta
 
-import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -10,6 +9,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.activity.SettingsData
@@ -21,21 +21,21 @@ sealed class Screen(
     val route: String,
     @StringRes val titleId: Int,
     val icon: ImageVector,
-    val content: @Composable (Context) -> Unit,
-    val actions: @Composable (Context) -> Unit = {}
+    val content: @Composable () -> Unit,
+    val actions: @Composable () -> Unit = {}
 ) {
     object Portfolio : Screen(
         route = "portfolio",
         titleId = R.string.portfolio,
         icon = Icons.Outlined.PieChart,
-        content = { context ->
-            PortfolioView(context)
-        },
-        actions = { context ->
-            IconButton(onClick = {
+        content = { PortfolioView() },
+        actions = {
+            val context = LocalContext.current
+
+            IconButton({
                 openActivity(
                     context,
-                    SettingsActivity(),
+                    SettingsActivity::class.java,
                     SettingsData(currencies = listOf("Euro", "Dollar"))
                 )
             }) {
@@ -48,8 +48,6 @@ sealed class Screen(
         route = "search",
         titleId = R.string.search,
         icon = Icons.Outlined.Search,
-        content = { context ->
-            SearchView(context)
-        }
+        content = { SearchView() }
     )
 }

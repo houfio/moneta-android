@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MonetaTheme {
-                MonetaApp(applicationContext)
+                MonetaApp()
             }
         }
     }
