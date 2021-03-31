@@ -24,7 +24,7 @@ import io.houf.moneta.util.openActivity
 @Composable
 fun SearchView() {
     LazyColumn {
-        items(listings) { listing ->
+        items(listOf(1)) { listing ->
             val name = "Coin ${listing + 1}"
             val context = LocalContext.current
 

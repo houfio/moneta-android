@@ -1,5 +1,9 @@
 package io.houf.moneta.model
 
+data class ListingResponseModel(
+    val data: List<ListingModel>
+)
+
 data class ListingModel(
     val id: Int,
     val name: String,
