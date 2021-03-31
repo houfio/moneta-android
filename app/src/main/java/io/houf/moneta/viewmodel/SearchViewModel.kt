@@ -2,6 +2,8 @@ package io.houf.moneta.viewmodel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +20,14 @@ class SearchViewModel @Inject constructor(
     fun refresh() = api.fetchListings()
 
     @Composable
-    fun listings() = api.listings.observeAsState(listOf())
+    fun search() = remember { mutableStateOf("") }
+
+    @Composable
+    fun listings(search: String) = Transformations.map(api.listings) { listings ->
+        listings.filter { listing ->
+            listing.name.contains(search, true) || listing.symbol.contains(search, true)
+        }
+    }.observeAsState(listOf())
 
     @Composable
     fun change(listing: ListingModel) = Transformations.map(settings.range) { range ->

@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,19 +27,28 @@ import io.houf.moneta.Screen
 import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
 import io.houf.moneta.util.openActivity
+import io.houf.moneta.view.component.Line
 import io.houf.moneta.view.component.Pill
+import io.houf.moneta.view.component.Search
 import io.houf.moneta.view.component.TopBar
 import io.houf.moneta.viewmodel.SearchViewModel
 
 @Composable
 fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
-    val listings by viewModel.listings()
+    var search by viewModel.search()
+    val listings by viewModel.listings(search)
 
     TopBar(Screen.Search) {
         IconButton({ viewModel.refresh() }) {
             Icon(Icons.Outlined.Refresh, stringResource(R.string.refresh))
         }
     }
+    Search(
+        value = search,
+        setValue = { search = it },
+        modifier = Modifier.padding(bottom = 16.dp)
+    )
+    Line()
     LazyColumn {
         items(listings) { listing ->
             val context = LocalContext.current
