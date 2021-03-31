@@ -1,27 +1,16 @@
 package io.houf.moneta.activity
 
 import android.app.ActionBar
-import android.content.Intent
-import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import io.houf.moneta.fragment.ComposeFragment
 import io.houf.moneta.view.ListingView
+import kotlinx.parcelize.Parcelize
 
-data class ListingData(val id: Int, var title: String)
+@Parcelize
+data class ListingData(val id: Int, var title: String): Parcelable
 
 class ListingActivity : FragmentActivity<ListingData>() {
-    override fun encode(bundle: Bundle, data: ListingData) {
-        bundle.putInt("id", data.id)
-        bundle.putString("title", data.title)
-    }
-
-    override fun decode(intent: Intent): ListingData {
-        return ListingData(
-            id = intent.getIntExtra("id", 1),
-            title = intent.getStringExtra("title") ?: ""
-        )
-    }
-
     override fun initializeBar(bar: ActionBar, data: ListingData) {
         bar.title = data.title
     }

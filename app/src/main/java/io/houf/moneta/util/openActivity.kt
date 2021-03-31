@@ -2,14 +2,14 @@ package io.houf.moneta.util
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+import android.os.Parcelable
 import io.houf.moneta.activity.FragmentActivity
 
-fun <T> openActivity(context: Context, activity: FragmentActivity<T>, data: T) {
-    val intent = Intent(context, activity::class.java)
+fun <T : Parcelable> openActivity(context: Context, activity: Class<out FragmentActivity<T>>, data: T) {
+    val intent = Intent(context, activity)
 
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-    intent.putExtras(Bundle().apply { activity.encode(this, data) })
+    intent.putExtra("data", data)
 
     context.startActivity(intent)
 }
