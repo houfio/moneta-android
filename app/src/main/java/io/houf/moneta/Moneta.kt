@@ -23,6 +23,6 @@ class MonetaModule {
         Room.databaseBuilder(context, DatabaseService::class.java, "Moneta").build()
 
     @Provides
-    fun provideApiService(@ApplicationContext context: Context, database: DatabaseService) =
+    fun provideApi(@ApplicationContext context: Context, database: DatabaseService) =
         ApiService(context, database)
 }

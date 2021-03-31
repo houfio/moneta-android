@@ -11,24 +11,27 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import io.houf.moneta.view.component.PricePill
+import io.houf.moneta.viewmodel.SearchViewModel
 
 @Composable
-fun SearchView() {
-    LazyColumn {
-        items(listOf(1)) { listing ->
-            val name = "Coin ${listing + 1}"
+fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
+    val listings by viewModel.listings()
 
+    LazyColumn {
+        items(listings) { listing ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 12.dp)
                     .fillMaxWidth()
             ) {
-                Text(name)
+                Text(listing.name)
                 Spacer(Modifier.weight(1f))
                 PricePill(1.0)
                 Icon(
