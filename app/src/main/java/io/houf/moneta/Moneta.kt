@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.houf.moneta.service.ApiService
 import io.houf.moneta.service.DatabaseService
+import io.houf.moneta.service.SettingsService
 
 @HiltAndroidApp
 class Moneta : Application()
@@ -23,6 +24,10 @@ class MonetaModule {
         Room.databaseBuilder(context, DatabaseService::class.java, "Moneta").build()
 
     @Provides
-    fun provideApi(@ApplicationContext context: Context, database: DatabaseService) =
-        ApiService(context, database)
+    fun provideSettings(@ApplicationContext context: Context) =
+        SettingsService(context)
+
+    @Provides
+    fun provideApi(@ApplicationContext context: Context, database: DatabaseService, settings: SettingsService) =
+        ApiService(context, database, settings)
 }

@@ -11,12 +11,10 @@ class SettingsFragment(private val data: SettingsData) : PreferenceFragmentCompa
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val keys = data.currencies.map { it.symbol }.toTypedArray()
-
         findPreference<ListPreference>("currency")?.apply {
             entries = data.currencies.map { it.name }.toTypedArray()
-            entryValues = keys
-            setDefaultValue(keys.first())
+            entryValues = data.currencies.map { it.symbol }.toTypedArray()
+            setDefaultValue(entryValues.first())
         }
 
         findPreference<DropDownPreference>("range")?.apply {

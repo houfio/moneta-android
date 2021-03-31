@@ -18,7 +18,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ApiService(private val context: Context, private val database: DatabaseService) {
+class ApiService(
+    private val context: Context,
+    private val database: DatabaseService,
+    private val settings: SettingsService
+) {
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
     private var _currencies = MutableLiveData(listOf<CurrencyModel>())
@@ -36,6 +40,7 @@ class ApiService(private val context: Context, private val database: DatabaseSer
         url = "fiat/map",
         cacheKey = "currencies",
         skipCache = skipCache,
+        query = mapOf("convert" to settings.currency),
         onSuccess = { _currencies.value = it.data }
     )
 
@@ -66,32 +71,38 @@ class ApiService(private val context: Context, private val database: DatabaseSer
                 if (result != null) {
                     onSuccess(result!!)
                 } else {
-                    val builder = Uri.Builder()
-                        .scheme("https")
-                        .authority("pro-api.coinmarketcap.com")
-                        .appendPath("v1")
-
-                    url.split("/").forEach { path ->
-                        builder.appendPath(path)
-                    }
-
-                    query.forEach { (key, value) ->
-                        builder.appendQueryParameter(key, value)
-                    }
-
                     queue.add(ApiRequest(
                         context = context,
-                        url = builder.toString(),
+                        url = buildUrl(url, query),
                         cls = T::class.java,
                         onSuccess = onSuccess,
-                        onCache = { json ->
-                            GlobalScope.launch {
-                                database.cache().insertCache(Cache(cacheKey, json))
-                            }
-                        }
+                        onCache = { cacheJson(it, cacheKey) }
                     ))
                 }
             }
+        }
+    }
+
+    private fun buildUrl(url: String, query: Map<String, String>): String {
+        val builder = Uri.Builder()
+            .scheme("https")
+            .authority("pro-api.coinmarketcap.com")
+            .appendPath("v1")
+
+        url.split("/").forEach { path ->
+            builder.appendPath(path)
+        }
+
+        query.forEach { (key, value) ->
+            builder.appendQueryParameter(key, value)
+        }
+
+        return builder.toString()
+    }
+
+    private fun cacheJson(json: String, cacheKey: String) {
+        GlobalScope.launch {
+            database.cache().insertCache(Cache(cacheKey, json))
         }
     }
 }

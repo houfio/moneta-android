@@ -10,7 +10,7 @@
 
         <DropDownPreference
             android:entries="@array/range_names"
-            android:entryValues="@array/range_names"
+            android:entryValues="@array/range_values"
             android:key="range"
             android:title="@string/settings_range"
             app:useSimpleSummaryProvider="true" />
