@@ -1,6 +1,7 @@
 package io.houf.moneta.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 data class ListingsModel(
@@ -37,10 +38,10 @@ data class PlatformModel(
 @Parcelize
 data class QuoteModel(
     val price: Double,
-    val volume24H: Double,
-    val percentChange1H: Double,
-    val percentChange24H: Double,
-    val percentChange7D: Double,
+    @SerializedName("volume_24h") val volume24h: Double,
+    @SerializedName("percent_change_1h") val percentChange1h: Double,
+    @SerializedName("percent_change_24h") val percentChange24h: Double,
+    @SerializedName("percent_change_7d") val percentChange7d: Double,
     val marketCap: Double,
     val lastUpdated: String
 ) : Parcelable

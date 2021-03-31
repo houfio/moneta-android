@@ -13,4 +13,5 @@
     <string name="range_1h">1 hour</string>
     <string name="range_24h">24 hours</string>
     <string name="range_7d">7 days</string>
+    <string name="refresh">Refresh</string>
 </resources>

@@ -11,7 +11,7 @@ class SettingsService(private val context: Context) {
         get() = settings.getString("currency", null) ?: "EUR"
 
     val range
-        get() = settings.getString("range", null)
+        get() = settings.getString("range", null) ?: "24h"
 
     val blur
         get() = settings.getBoolean("blur", false)

@@ -26,7 +26,7 @@ fun Price(value: Double, change: Double) {
                     fontSize = 32.sp
                 )
                 Spacer(Modifier.width(8.dp))
-                PricePill(change)
+                Pill(change)
             }
             Line()
         }

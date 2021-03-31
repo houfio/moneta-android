@@ -15,7 +15,7 @@ import io.houf.moneta.view.theme.Green500
 import io.houf.moneta.view.theme.Red500
 
 @Composable
-fun PricePill(value: Double) {
+fun Pill(value: Double) {
     val positive = value >= 0
 
     Text(

@@ -9,6 +9,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <DropDownPreference
+            android:defaultValue="24h"
             android:entries="@array/range_names"
             android:entryValues="@array/range_values"
             android:key="range"

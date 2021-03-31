@@ -38,10 +38,7 @@ class ApiRequest<T>(
 
             onCache?.invoke(json)
 
-            Response.success(
-                decodeJson(json, cls),
-                HttpHeaderParser.parseCacheHeaders(response)
-            )
+            Response.success(decodeJson(json, cls), null)
         } catch (e: Exception) {
             Response.error(VolleyError(e))
         }

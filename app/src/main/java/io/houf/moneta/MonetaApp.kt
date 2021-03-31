@@ -41,7 +41,6 @@ fun MonetaApp() {
                             unselectedContentColor = LocalContentColor.current.copy(alpha = 0.5f),
                             onClick = {
                                 controller.navigate(screen.route) {
-                                    popUpTo = controller.graph.startDestination
                                     launchSingleTop = true
                                 }
                             }

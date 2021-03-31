@@ -2,6 +2,7 @@ package io.houf.moneta.service
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.RequestQueue
@@ -63,6 +64,8 @@ class ApiService(
 
             if (!skipCache) {
                 database.cache().getCache(cacheKey)?.apply {
+                    Log.d("MONETA", "Decoding response from cache: $data")
+
                     result = decodeJson(data, T::class.java)
                 }
             }
