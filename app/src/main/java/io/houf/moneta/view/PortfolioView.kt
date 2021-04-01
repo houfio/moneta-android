@@ -8,7 +8,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccessibleForward
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +24,7 @@ import io.houf.moneta.activity.ListingData
 import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.activity.SettingsData
 import io.houf.moneta.util.openActivity
+import io.houf.moneta.util.share
 import io.houf.moneta.view.component.Card
 import io.houf.moneta.view.component.Price
 import io.houf.moneta.view.component.TopBar
@@ -36,6 +39,14 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val context = LocalContext.current
 
     TopBar(Portfolio) {
+        IconButton({
+            share(
+                context,
+                viewModel.value
+            )
+        }) {
+            Icon(Icons.Outlined.Share, stringResource(R.string.share))
+        }
         IconButton({
             openActivity(
                 context,
