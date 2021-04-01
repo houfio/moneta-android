@@ -43,7 +43,6 @@ fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
     LazyColumn {
         items(listings) { listing ->
             val context = LocalContext.current
-            val change by viewModel.change(listing)
 
             RowEntry({
                 openActivity(
@@ -54,7 +53,7 @@ fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
             }) {
                 Text(listing.name)
                 Spacer(Modifier.weight(1f))
-                Pill(change)
+                Pill(viewModel.change(listing))
             }
         }
     }

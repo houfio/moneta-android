@@ -24,9 +24,6 @@ fun ListingView(data: ListingData, viewModel: ListingViewModel) {
     val listing = data.listing
     val open by viewModel.open()
     val amount by viewModel.amount()
-    val change by viewModel.change(listing)
-    val sign by viewModel.sign(listing)
-    val details by viewModel.details(listing)
 
     if (open) {
         InputDialog(
@@ -38,13 +35,17 @@ fun ListingView(data: ListingData, viewModel: ListingViewModel) {
     }
 
     Column {
-        Price(listing.q.price, change, sign)
+        Price(
+            value = listing.q.price,
+            change = viewModel.getChange(listing),
+            sign = viewModel.getSign(listing)
+        )
         LazyColumn {
             item {
                 DividerText(stringResource(R.string.info))
             }
 
-            items(details) { (key, value, icon) ->
+            items(viewModel.getDetails(listing)) { (key, value, icon) ->
                 RowEntry(icon = icon) {
                     Column {
                         Text(stringResource(key))

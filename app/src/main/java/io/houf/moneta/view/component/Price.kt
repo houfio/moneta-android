@@ -22,13 +22,11 @@ fun Price(value: Double, change: Double, sign: String, blur: Boolean = false) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (!blur) {
-                    Text(
-                        text = value.formatNumber(start = sign),
-                        fontSize = 32.sp
-                    )
-                    Spacer(Modifier.width(8.dp))
-                }
+                Text(
+                    text = if (blur) "???" else value.formatNumber(start = sign),
+                    fontSize = 32.sp
+                )
+                Spacer(Modifier.width(8.dp))
                 Pill(change)
             }
             DividerLine()

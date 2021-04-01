@@ -23,4 +23,6 @@
     <string name="circulating_supply">Circulating supply</string>
     <string name="total_supply">Total supply</string>
     <string name="update_portfolio">Update portfolio</string>
+    <string name="unknown_listing">Unknown cryptocurrency</string>
+    <string name="network_error">Network error</string>
 </resources>

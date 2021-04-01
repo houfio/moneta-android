@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
             } ?: listOf()
         }.observeAsState(listOf())
 
-    @Composable
-    fun change(listing: ListingModel) =
-        Transformations.map(settings.range) { listing.q.percentChange(it) }.observeAsState(0.0)
+    fun change(listing: ListingModel) = settings.range.value?.let { range ->
+        listing.q.percentChange(range)
+    } ?: 0.0
 }

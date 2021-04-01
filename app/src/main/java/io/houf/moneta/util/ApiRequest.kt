@@ -9,6 +9,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import io.houf.moneta.BuildConfig
+import io.houf.moneta.R
 import java.nio.charset.Charset
 
 class ApiRequest<T>(
@@ -21,7 +22,7 @@ class ApiRequest<T>(
     val message = error.localizedMessage ?: "Unknown request error"
 
     Log.d("moneta.request", "Caught network error: $message")
-    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    Toast.makeText(context, R.string.network_error, Toast.LENGTH_LONG).show()
 }) {
     override fun getHeaders() = mutableMapOf("X-CMC_PRO_API_KEY" to BuildConfig.API_KEY)
 

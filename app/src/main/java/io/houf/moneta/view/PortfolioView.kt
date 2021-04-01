@@ -70,7 +70,7 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
         contentPadding = PaddingValues(16.dp)
     ) {
         items(listings) { (listing, portfolio) ->
-            Card(title = listing.name, subtitle = portfolio?.amount.formatNumber()) {
+            Card(title = listing.name, subtitle = portfolio.amount.formatNumber()) {
                 openActivity(
                     context,
                     ListingActivity::class.java,

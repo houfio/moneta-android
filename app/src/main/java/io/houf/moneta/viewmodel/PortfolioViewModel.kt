@@ -40,16 +40,16 @@ class PortfolioViewModel @Inject constructor(
     fun value() = value.observeAsState(0.0)
 
     @Composable
-    fun change() = Transformations.map(listings.combineWith(value, settings.range)) { (portfolio, value, change) ->
-        value?.let { v ->
-            change?.let { l ->
-                portfolio?.fold(0.0) { acc, p ->
-                    val worth = p.listing.q.price * p.portfolio.amount
-                    val weight = 1 / v * worth
-
-                    acc + p.listing.q.percentChange(l) * weight
-                }
+    fun change() = Transformations.map(listings.combineWith(value, settings.range)) { (portfolio, value, range) ->
+        portfolio?.fold(0.0) { acc, p ->
+            if (value == null || range == null) {
+                return@fold acc
             }
+
+            val worth = p.listing.q.price * p.portfolio.amount
+            val weight = 1 / value * worth
+
+            acc + p.listing.q.percentChange(range) * weight
         } ?: 0.0
     }.observeAsState(0.0)
 

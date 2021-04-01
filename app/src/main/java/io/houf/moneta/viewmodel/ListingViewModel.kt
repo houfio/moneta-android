@@ -32,7 +32,7 @@ class ListingViewModel @Inject constructor(
     private var _amount = MutableLiveData(0.0)
 
     val plainAmount: String
-        get() = _amount.value!!.toBigDecimal().toPlainString()
+        get() = _amount.value?.toBigDecimal()?.toPlainString() ?: "0.0"
 
     fun init(listing: ListingModel) {
         GlobalScope.launch {
@@ -44,16 +44,11 @@ class ListingViewModel @Inject constructor(
         }
     }
 
-    private fun rawSign(listing: ListingModel) = Transformations.map(api.currencies) { currencies ->
-        currencies.find { it.symbol == listing.quote.keys.first() }?.sign ?: "€"
-    }
-
     @Composable
     fun open() = _open.observeAsState(false)
 
     @Composable
-    fun amount() =
-        Transformations.map(_amount) { it.formatNumber() }.observeAsState("")
+    fun amount() = Transformations.map(_amount) { it.formatNumber() }.observeAsState("")
 
     fun setOpen() {
         _open.value = true
@@ -77,23 +72,17 @@ class ListingViewModel @Inject constructor(
 
     fun validateInput(input: String) = input.toDoubleOrNull() != null
 
-    @Composable
-    fun details(listing: ListingModel) = Transformations.map(rawSign(listing)) { sign ->
-        val symbol = listing.symbol
+    fun getDetails(listing: ListingModel) = listOf(
+        Triple(R.string.symbol, listing.symbol, Icons.Outlined.TurnedInNot),
+        Triple(R.string.ranking, "#${listing.cmcRank}", Icons.Outlined.Article),
+        Triple(R.string.market_capitalization, listing.q.marketCap.formatNumber(start = getSign(listing)), Icons.Outlined.ShoppingBag),
+        Triple(R.string.circulating_supply, listing.circulatingSupply.formatNumber(end = " ${listing.symbol}"), Icons.Outlined.Cached),
+        Triple(R.string.total_supply, listing.totalSupply.formatNumber(end = " $${listing.symbol}"), Icons.Outlined.Refresh)
+    )
 
-        listOf(
-            Triple(R.string.symbol, symbol, Icons.Outlined.TurnedInNot),
-            Triple(R.string.ranking, "#${listing.cmcRank}", Icons.Outlined.Article),
-            Triple(R.string.market_capitalization, listing.q.marketCap.formatNumber(start = sign), Icons.Outlined.ShoppingBag),
-            Triple(R.string.circulating_supply, listing.circulatingSupply.formatNumber(end = " $symbol"), Icons.Outlined.Cached),
-            Triple(R.string.total_supply, listing.totalSupply.formatNumber(end = " $symbol"), Icons.Outlined.Refresh)
-        )
-    }.observeAsState(listOf())
+    fun getChange(listing: ListingModel) = listing.q.percentChange(settings.range.value ?: "")
 
-    @Composable
-    fun change(listing: ListingModel) =
-        Transformations.map(settings.range) { listing.q.percentChange(it) }.observeAsState(0.0)
-
-    @Composable
-    fun sign(listing: ListingModel) = rawSign(listing).observeAsState("")
+    fun getSign(listing: ListingModel) = api.currencies.value?.find { currency ->
+        currency.symbol == listing.quote.keys.first()
+    }?.sign ?: ""
 }
