@@ -34,7 +34,7 @@ class ApiRequest<T>(
                 Charset.forName(HttpHeaderParser.parseCharset(response?.headers))
             )
 
-            Log.d("moneta.request", "Decoding API response: $json")
+            Log.d("moneta.request", "Decoding network response: $json")
 
             onCache?.invoke(json)
 
