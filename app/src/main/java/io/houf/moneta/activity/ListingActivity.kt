@@ -25,6 +25,6 @@ class ListingActivity : FragmentActivity<ListingData>() {
 
         viewModel.init(data.listing)
 
-        return ComposeFragment { ListingView(data, viewModel) }
+        return ComposeFragment { ListingView(data.listing, viewModel) }
     }
 }

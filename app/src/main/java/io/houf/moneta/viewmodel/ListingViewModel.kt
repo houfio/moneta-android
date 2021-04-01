@@ -48,7 +48,9 @@ class ListingViewModel @Inject constructor(
     fun open() = _open.observeAsState(false)
 
     @Composable
-    fun amount() = Transformations.map(_amount) { it.formatNumber() }.observeAsState("")
+    fun amount(listing: ListingModel) = Transformations.map(_amount) { amount ->
+        "${amount.formatNumber()} ${listing.symbol}"
+    }.observeAsState("")
 
     fun setOpen() {
         _open.value = true
@@ -77,7 +79,7 @@ class ListingViewModel @Inject constructor(
         Triple(R.string.ranking, "#${listing.cmcRank}", Icons.Outlined.Article),
         Triple(R.string.market_capitalization, listing.q.marketCap.formatNumber(start = getSign(listing)), Icons.Outlined.ShoppingBag),
         Triple(R.string.circulating_supply, listing.circulatingSupply.formatNumber(end = " ${listing.symbol}"), Icons.Outlined.Cached),
-        Triple(R.string.total_supply, listing.totalSupply.formatNumber(end = " $${listing.symbol}"), Icons.Outlined.Refresh)
+        Triple(R.string.total_supply, listing.totalSupply.formatNumber(end = " ${listing.symbol}"), Icons.Outlined.Refresh)
     )
 
     fun getChange(listing: ListingModel) = listing.q.percentChange(settings.range.value ?: "")

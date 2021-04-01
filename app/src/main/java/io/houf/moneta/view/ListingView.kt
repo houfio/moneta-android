@@ -15,15 +15,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.houf.moneta.R
-import io.houf.moneta.activity.ListingData
+import io.houf.moneta.model.ListingModel
 import io.houf.moneta.view.component.*
 import io.houf.moneta.viewmodel.ListingViewModel
 
 @Composable
-fun ListingView(data: ListingData, viewModel: ListingViewModel) {
-    val listing = data.listing
+fun ListingView(listing: ListingModel, viewModel: ListingViewModel) {
     val open by viewModel.open()
-    val amount by viewModel.amount()
+    val amount by viewModel.amount(listing)
 
     if (open) {
         InputDialog(
