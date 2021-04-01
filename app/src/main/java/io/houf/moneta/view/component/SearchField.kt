@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Search(value: String, setValue: (String) -> Unit, modifier: Modifier = Modifier) {
+fun SearchField(value: String, setValue: (String) -> Unit, modifier: Modifier = Modifier) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val color = LocalContentColor.current
 

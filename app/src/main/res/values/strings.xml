@@ -13,5 +13,12 @@
     <string name="range_1h">1 hour</string>
     <string name="range_24h">24 hours</string>
     <string name="range_7d">7 days</string>
+    <string name="details">Details</string>
     <string name="refresh">Refresh</string>
+    <string name="info">Info</string>
+    <string name="symbol">Symbol</string>
+    <string name="ranking">Ranking</string>
+    <string name="market_capitalization">Market capitalization</string>
+    <string name="circulating_supply">Circulating supply</string>
+    <string name="total_supply">Total supply</string>
 </resources>

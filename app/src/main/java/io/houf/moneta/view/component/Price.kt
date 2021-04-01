@@ -28,7 +28,7 @@ fun Price(value: Double, change: Double, sign: String, blur: Boolean = false) {
                 Spacer(Modifier.width(8.dp))
                 Pill(change)
             }
-            Line()
+            DividerLine()
         }
     }
 }

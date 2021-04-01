@@ -5,6 +5,6 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
 
 @Composable
-fun Line() {
+fun DividerLine() {
     Divider(color = LocalContentColor.current.copy(alpha = 0.1f))
 }
