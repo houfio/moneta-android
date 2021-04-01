@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.houf.moneta.util.formatNumber
 import io.houf.moneta.view.theme.Green500
 import io.houf.moneta.view.theme.Red500
 
@@ -19,7 +20,7 @@ fun Pill(value: Double) {
     val positive = value >= 0
 
     Text(
-        text = "${if (positive) "+" else ""}${String.format("%.2f", value)}%",
+        text = value.formatNumber(start = if (positive) "+" else "", end = "%"),
         color = MaterialTheme.colors.onPrimary,
         fontSize = 12.sp,
         fontWeight = FontWeight.Bold,

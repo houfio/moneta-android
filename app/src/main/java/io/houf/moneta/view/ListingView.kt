@@ -33,7 +33,7 @@ fun ListingView(data: ListingData, viewModel: ListingViewModel) {
             title = stringResource(R.string.update_portfolio),
             initial = amount,
             onDismiss = { viewModel.setAmount(listing, it) },
-            onValidate = { it.toDoubleOrNull() != null }
+            onValidate = { viewModel.validateInput(it) }
         )
     }
 

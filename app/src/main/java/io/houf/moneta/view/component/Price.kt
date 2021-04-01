@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.houf.moneta.util.formatNumber
 
 @Composable
 fun Price(value: Double, change: Double, sign: String, blur: Boolean = false) {
@@ -21,11 +22,13 @@ fun Price(value: Double, change: Double, sign: String, blur: Boolean = false) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "$sign${if (blur) "-" else String.format("%.2f", value)}",
-                    fontSize = 32.sp
-                )
-                Spacer(Modifier.width(8.dp))
+                if (!blur) {
+                    Text(
+                        text = value.formatNumber(start = sign),
+                        fontSize = 32.sp
+                    )
+                    Spacer(Modifier.width(8.dp))
+                }
                 Pill(change)
             }
             DividerLine()
