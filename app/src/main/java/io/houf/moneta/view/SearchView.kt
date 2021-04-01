@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -27,8 +26,8 @@ import io.houf.moneta.viewmodel.SearchViewModel
 
 @Composable
 fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
-    var search by viewModel.search()
-    val listings by viewModel.listings(search)
+    val search by viewModel.search()
+    val listings by viewModel.listings()
 
     TopBar(Screen.Search) {
         IconButton({ viewModel.refresh() }) {
@@ -37,7 +36,7 @@ fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
     }
     SearchField(
         value = search,
-        setValue = { search = it },
+        setValue = { viewModel.setSearch(it) },
         modifier = Modifier.padding(bottom = 16.dp)
     )
     DividerLine()

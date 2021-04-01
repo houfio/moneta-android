@@ -9,7 +9,7 @@ data class ListingsModel(
 )
 
 @Parcelize
-data class ListingModel(
+class ListingModel(
     val id: Int,
     val name: String,
     val symbol: String,
@@ -24,7 +24,10 @@ data class ListingModel(
     val tags: List<String>,
     val platform: PlatformModel?,
     val quote: Map<String, QuoteModel>
-) : Parcelable
+) : Parcelable {
+    val q
+        get() = quote.values.first()
+}
 
 @Parcelize
 data class PlatformModel(
@@ -36,7 +39,7 @@ data class PlatformModel(
 ) : Parcelable
 
 @Parcelize
-data class QuoteModel(
+class QuoteModel(
     val price: Double,
     @SerializedName("volume_24h") val volume24h: Double,
     @SerializedName("percent_change_1h") val percentChange1h: Double,
@@ -44,4 +47,10 @@ data class QuoteModel(
     @SerializedName("percent_change_7d") val percentChange7d: Double,
     val marketCap: Double,
     val lastUpdated: String
-) : Parcelable
+) : Parcelable {
+    fun percentChange(range: String) = when (range) {
+        "1h" -> percentChange1h
+        "7d" -> percentChange7d
+        else -> percentChange24h
+    }
+}

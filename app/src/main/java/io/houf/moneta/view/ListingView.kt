@@ -16,21 +16,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.houf.moneta.R
 import io.houf.moneta.activity.ListingData
-import io.houf.moneta.view.component.DividerLine
-import io.houf.moneta.view.component.DividerText
-import io.houf.moneta.view.component.Price
-import io.houf.moneta.view.component.RowEntry
+import io.houf.moneta.view.component.*
 import io.houf.moneta.viewmodel.ListingViewModel
 
 @Composable
 fun ListingView(data: ListingData, viewModel: ListingViewModel) {
     val listing = data.listing
+    val open by viewModel.open()
+    val amount by viewModel.amount()
     val change by viewModel.change(listing)
     val sign by viewModel.sign(listing)
     val details by viewModel.details(listing)
 
+    if (open) {
+        InputDialog(
+            title = stringResource(R.string.update_portfolio),
+            initial = amount,
+            onDismiss = { viewModel.setAmount(listing, it) },
+            onValidate = { it.toDoubleOrNull() != null }
+        )
+    }
+
     Column {
-        Price(viewModel.price(listing), change, sign)
+        Price(listing.q.price, change, sign)
         LazyColumn {
             item {
                 DividerText(stringResource(R.string.info))
@@ -56,9 +64,9 @@ fun ListingView(data: ListingData, viewModel: ListingViewModel) {
             }
 
             item {
-                RowEntry({}) {
+                RowEntry({ viewModel.setOpen() }) {
                     Spacer(Modifier.width(56.dp))
-                    Text("${listing.id}")
+                    Text(amount)
                     Spacer(Modifier.weight(1.0f))
                 }
             }

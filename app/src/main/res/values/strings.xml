@@ -21,4 +21,5 @@
     <string name="market_capitalization">Market capitalization</string>
     <string name="circulating_supply">Circulating supply</string>
     <string name="total_supply">Total supply</string>
+    <string name="update_portfolio">Update portfolio</string>
 </resources>
