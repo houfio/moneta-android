@@ -5,6 +5,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.houf.moneta.model.PortfolioModel
 import io.houf.moneta.service.ApiService
 import io.houf.moneta.service.DatabaseService
 import io.houf.moneta.service.SettingsService
@@ -16,20 +17,41 @@ import javax.inject.Inject
 class PortfolioViewModel @Inject constructor(
     private val api: ApiService,
     private val settings: SettingsService,
-    private val database: DatabaseService
+    database: DatabaseService
 ) : ViewModel() {
-    val value = 1000.0
-    val change = 25.0
+    private val listings = Transformations.map(
+        api.listings.combineWith(database.portfolio().get())
+    ) { (listings, portfolio) ->
+        listings?.mapNotNull { listing ->
+            val p = portfolio?.find { it.id == listing.slug.toLowerCase(Locale.ROOT) }
+
+            if (p != null && p.amount > 0) PortfolioModel(listing, p) else null
+        } ?: listOf()
+    }
+
+    private val value = Transformations.map(listings) { listings ->
+        listings.fold(0.0) { acc, p -> acc + p.listing.q.price * p.portfolio.amount }
+    }
 
     @Composable
-    fun listings() =
-        Transformations.map(api.listings.combineWith(database.portfolio().get())) { (listings, portfolio) ->
-            listings?.map { listing ->
-                listing to portfolio?.find { it.id == listing.slug.toLowerCase(Locale.ROOT) }
-            }?.filter { (_, portfolio) ->
-                portfolio != null && portfolio.amount > 0
-            } ?: listOf()
-        }.observeAsState(listOf())
+    fun listings() = listings.observeAsState(listOf())
+
+    @Composable
+    fun value() = value.observeAsState(0.0)
+
+    @Composable
+    fun change() = Transformations.map(listings.combineWith(value, settings.range)) { (portfolio, value, change) ->
+        value?.let { v ->
+            change?.let { l ->
+                portfolio?.fold(0.0) { acc, p ->
+                    val worth = p.listing.q.price * p.portfolio.amount
+                    val weight = 1 / v * worth
+
+                    acc + p.listing.q.percentChange(l) * weight
+                }
+            }
+        } ?: 0.0
+    }.observeAsState(0.0)
 
     @Composable
     fun currencies() = api.currencies.observeAsState(listOf())

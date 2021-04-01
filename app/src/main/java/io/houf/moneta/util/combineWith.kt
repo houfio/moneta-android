@@ -11,3 +11,13 @@ fun <T, K> LiveData<T>.combineWith(liveData: LiveData<K>): LiveData<Pair<T?, K?>
 
     return result
 }
+
+fun <T, K, V> LiveData<T>.combineWith(liveData: LiveData<K>, liveDataExtra: LiveData<V>): LiveData<Triple<T?, K?, V?>> {
+    val result = MediatorLiveData<Triple<T?, K?, V?>>()
+
+    result.addSource(this) { result.value = Triple(value, liveData.value, liveDataExtra.value) }
+    result.addSource(liveData) { result.value = Triple(value, liveData.value, liveDataExtra.value) }
+    result.addSource(liveDataExtra) { result.value = Triple(value, liveData.value, liveDataExtra.value) }
+
+    return result
+}

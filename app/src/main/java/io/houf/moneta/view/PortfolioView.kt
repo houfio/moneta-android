@@ -34,6 +34,8 @@ import io.houf.moneta.viewmodel.PortfolioViewModel
 @Composable
 fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val listings by viewModel.listings()
+    val value by viewModel.value()
+    val change by viewModel.change()
     val currencies by viewModel.currencies()
     val blur by viewModel.blur()
     val context = LocalContext.current
@@ -42,7 +44,7 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
         IconButton({
             share(
                 context,
-                viewModel.value
+                value
             )
         }) {
             Icon(Icons.Outlined.Share, stringResource(R.string.share))
@@ -58,8 +60,8 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
         }
     }
     Price(
-        value = viewModel.value,
-        change = viewModel.change,
+        value = value,
+        change = change,
         sign = "€",
         blur = blur
     )
