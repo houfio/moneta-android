@@ -31,7 +31,7 @@ fun ListingView(data: ListingData, viewModel: ListingViewModel) {
     if (open) {
         InputDialog(
             title = stringResource(R.string.update_portfolio),
-            initial = amount,
+            initial = viewModel.plainAmount,
             onDismiss = { viewModel.setAmount(listing, it) },
             onValidate = { viewModel.validateInput(it) }
         )

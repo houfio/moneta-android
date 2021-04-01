@@ -23,7 +23,7 @@ class ListingActivity : FragmentActivity<ListingData>() {
     override fun getFragment(data: ListingData): Fragment {
         val viewModel by viewModels<ListingViewModel>()
 
-        viewModel.initialize(data.listing)
+        viewModel.init(data.listing)
 
         return ComposeFragment { ListingView(data, viewModel) }
     }

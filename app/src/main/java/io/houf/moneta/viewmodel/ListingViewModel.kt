@@ -31,7 +31,10 @@ class ListingViewModel @Inject constructor(
     private var _open = MutableLiveData(false)
     private var _amount = MutableLiveData(0.0)
 
-    fun initialize(listing: ListingModel) {
+    val plainAmount: String
+        get() = _amount.value!!.toBigDecimal().toPlainString()
+
+    fun init(listing: ListingModel) {
         GlobalScope.launch {
             database.portfolio().get(listing.slug.toLowerCase(Locale.ROOT))?.apply {
                 withContext(Dispatchers.Main) {
@@ -50,7 +53,7 @@ class ListingViewModel @Inject constructor(
 
     @Composable
     fun amount() =
-        Transformations.map(_amount) { it.toBigDecimal().toPlainString() }.observeAsState("")
+        Transformations.map(_amount) { it.formatNumber() }.observeAsState("")
 
     fun setOpen() {
         _open.value = true

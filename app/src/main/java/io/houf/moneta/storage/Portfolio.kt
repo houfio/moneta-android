@@ -1,5 +1,6 @@
 package io.houf.moneta.storage
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Entity(tableName = "portfolio")
@@ -11,7 +12,7 @@ data class Portfolio(
 @Dao
 interface PortfolioDao {
     @Query("select * from portfolio")
-    suspend fun get(): List<Portfolio>
+    fun get(): LiveData<List<Portfolio>>
 
     @Query("select * from portfolio where id = :id")
     suspend fun get(id: String): Portfolio?

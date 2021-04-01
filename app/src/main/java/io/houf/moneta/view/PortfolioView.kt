@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccessibleForward
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
 import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.activity.SettingsData
+import io.houf.moneta.util.formatNumber
 import io.houf.moneta.util.openActivity
 import io.houf.moneta.util.share
 import io.houf.moneta.view.component.Card
@@ -67,8 +67,8 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
         cells = GridCells.Adaptive(192.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
-        items(listings) { listing ->
-            Card(title = listing.name, subtitle = "${listing.id}") {
+        items(listings) { (listing, portfolio) ->
+            Card(title = listing.name, subtitle = portfolio?.amount.formatNumber()) {
                 openActivity(
                     context,
                     ListingActivity::class.java,

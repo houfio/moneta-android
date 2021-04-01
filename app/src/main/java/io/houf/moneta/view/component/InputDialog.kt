@@ -28,7 +28,8 @@ fun InputDialog(
             Column(Modifier.padding(16.dp)) {
                 Text(
                     text = title,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
                 TextField(
                     value = text,
