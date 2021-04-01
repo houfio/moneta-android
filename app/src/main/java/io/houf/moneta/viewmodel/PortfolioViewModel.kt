@@ -58,4 +58,12 @@ class PortfolioViewModel @Inject constructor(
 
     @Composable
     fun blur() = settings.blur.observeAsState(false)
+
+    @Composable
+    fun sign() =
+        Transformations.map(api.listings.combineWith(api.currencies)) { (listings, currencies) ->
+            currencies?.find { currency ->
+                if (listings != null) currency.symbol == listings.first().quote.keys.first() else false
+            }?.sign ?: ""
+        }.observeAsState("")
 }

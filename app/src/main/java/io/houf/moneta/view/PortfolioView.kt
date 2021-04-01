@@ -24,7 +24,7 @@ import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.activity.SettingsData
 import io.houf.moneta.util.formatNumber
 import io.houf.moneta.util.openActivity
-import io.houf.moneta.util.share
+import io.houf.moneta.util.sharePortfolio
 import io.houf.moneta.view.component.Card
 import io.houf.moneta.view.component.Price
 import io.houf.moneta.view.component.TopBar
@@ -38,13 +38,15 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val change by viewModel.change()
     val currencies by viewModel.currencies()
     val blur by viewModel.blur()
+    val sign by viewModel.sign()
     val context = LocalContext.current
 
     TopBar(Portfolio) {
         IconButton({
-            share(
+            sharePortfolio(
                 context,
-                value
+                value,
+                sign
             )
         }) {
             Icon(Icons.Outlined.Share, stringResource(R.string.share))
@@ -62,7 +64,7 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     Price(
         value = value,
         change = change,
-        sign = "€",
+        sign = sign,
         blur = blur
     )
     LazyVerticalGrid(
