@@ -35,6 +35,10 @@ class ApiService(
     init {
         fetchCurrencies(false)
         fetchListings(false)
+
+        settings.currency.observeForever {
+            fetchListings(true)
+        }
     }
 
     fun fetchCurrencies(skipCache: Boolean = true) = queue<CurrenciesModel>(
