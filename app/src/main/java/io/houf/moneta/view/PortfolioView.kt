@@ -1,5 +1,8 @@
 package io.houf.moneta.view
 
+import android.Manifest
+import androidx.activity.compose.registerForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -28,6 +31,7 @@ import io.houf.moneta.activity.ListingData
 import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.activity.SettingsData
 import io.houf.moneta.util.formatNumber
+import io.houf.moneta.util.getLocation
 import io.houf.moneta.util.openActivity
 import io.houf.moneta.util.sharePortfolio
 import io.houf.moneta.view.component.Card
@@ -45,15 +49,21 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val blur by viewModel.blur()
     val sign by viewModel.sign()
     val context = LocalContext.current
+    val request = registerForActivityResult(RequestPermission()) {
+        getLocation(context) { location ->
+            sharePortfolio(
+                context,
+                value,
+                sign,
+                location
+            )
+        }
+    }
 
     TopBar(Portfolio) {
         if (listings.isNotEmpty()) {
             IconButton({
-                sharePortfolio(
-                    context,
-                    value,
-                    sign
-                )
+                request.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
             }) {
                 Icon(Icons.Outlined.Share, stringResource(R.string.share))
             }

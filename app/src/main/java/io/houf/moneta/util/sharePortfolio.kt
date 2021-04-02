@@ -7,9 +7,15 @@ import io.houf.moneta.R
 fun sharePortfolio(
     context: Context,
     value: Double,
-    sign: String
+    sign: String,
+    location: String?
 ) {
-    val message = context.getString(R.string.share_message, value.formatNumber(start = sign))
+    val message = context.getString(
+        R.string.share_message,
+        value.formatNumber(start = sign),
+        if (location != null) context.getString(R.string.share_location, location)
+        else context.getString(R.string.share_location_fallback)
+    )
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
         type = "text/plain"

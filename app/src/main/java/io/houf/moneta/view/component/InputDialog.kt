@@ -34,7 +34,7 @@ fun InputDialog(
                 TextField(
                     value = text,
                     onValueChange = { value ->
-                        if (value.isEmpty() || onValidate == null || onValidate(value)) {
+                        if (value.isEmpty() || onValidate?.invoke(value) != false) {
                             text = value
                         }
                     },

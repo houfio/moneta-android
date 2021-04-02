@@ -1,9 +1,5 @@
 package io.houf.moneta.view
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import io.houf.moneta.R
 import io.houf.moneta.Screen
@@ -30,9 +24,6 @@ import io.houf.moneta.util.openActivity
 import io.houf.moneta.view.component.*
 import io.houf.moneta.viewmodel.SearchViewModel
 
-private const val PERMISSION_REQUEST_CODE = 10
-private val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.RECORD_AUDIO)
-
 @Composable
 fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
     val search by viewModel.search()
@@ -40,14 +31,8 @@ fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
     val context = LocalContext.current
 
     TopBar(Screen.Search) {
-        IconButton(onClick = {
-            if (!hasPermissions(context)) {
-                ActivityCompat.requestPermissions(
-                    context as Activity,
-                    PERMISSIONS_REQUIRED,
-                    PERMISSION_REQUEST_CODE
-                )
-            }
+        IconButton({
+            viewModel.refresh()
         }) {
             Icon(Icons.Outlined.Refresh, stringResource(R.string.refresh))
         }
@@ -73,8 +58,4 @@ fun SearchView(viewModel: SearchViewModel = hiltNavGraphViewModel()) {
             }
         }
     }
-}
-
-fun hasPermissions(context: Context) = PERMISSIONS_REQUIRED.all {
-    ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
 }
