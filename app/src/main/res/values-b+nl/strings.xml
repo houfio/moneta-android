@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Moneta</string>
+    <string name="portfolio">Portefeuille</string>
+    <string name="search">Zoeken</string>
+    <string name="settings">Instellingen</string>
+    <string name="save">Opslaan</string>
+    <string name="share">Delen</string>
+    <string name="share_message">Wow, mijn portefeuille is %s waard! Ik hou zo erg van cryptomunten, ik weet zeker dat ik de rijkste persoon %s word! #moneta #crypto</string>
+    <string name="share_location">in %s</string>
+    <string name="share_location_fallback">ooit</string>
+    <string name="settings_general">Algemeen</string>
+    <string name="settings_currency">Valuta</string>
+    <string name="settings_range">Tijdsbereik</string>
+    <string name="settings_blur">Vervagen</string>
+    <string name="settings_blur_summary">Verberg de totale waarde van jouw portefeuille</string>
+    <string name="range_1h">1 uur</string>
+    <string name="range_24h">24 uur</string>
+    <string name="range_7d">7 dagen</string>
+    <string name="details">Details</string>
+    <string name="refresh">Herladen</string>
+    <string name="info">Info</string>
+    <string name="symbol">Symbool</string>
+    <string name="ranking">Positie</string>
+    <string name="market_capitalization">Marktkapitalisatie</string>
+    <string name="circulating_supply">Circulerend aanbod</string>
+    <string name="total_supply">Totaal aanbod</string>
+    <string name="update_portfolio">Portefeuille bijwerken</string>
+    <string name="unknown_listing">Onbekende cryptomunt</string>
+    <string name="network_error">Netwerkfout</string>
+    <string name="portfolio_empty">Jouw portefeuille is leeg</string>
+</resources>

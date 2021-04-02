@@ -8,11 +8,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import io.houf.moneta.R
 
 @Composable
 fun InputDialog(
@@ -50,7 +52,7 @@ fun InputDialog(
                 Row(Modifier.padding(top = 8.dp)) {
                     Spacer(Modifier.weight(1.0f))
                     TextButton({ onDismiss(text.ifEmpty { initial }) }) {
-                        Text("Save")
+                        Text(stringResource(R.string.save))
                     }
                 }
             }
