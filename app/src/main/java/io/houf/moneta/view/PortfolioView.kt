@@ -63,7 +63,7 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     TopBar(Portfolio) {
         if (listings.isNotEmpty()) {
             IconButton({
-                request.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                request.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }) {
                 Icon(Icons.Outlined.Share, stringResource(R.string.share))
             }
