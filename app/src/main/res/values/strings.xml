@@ -26,4 +26,5 @@
     <string name="update_portfolio">Update portfolio</string>
     <string name="unknown_listing">Unknown cryptocurrency</string>
     <string name="network_error">Network error</string>
+    <string name="portfolio_empty">Your portfolio is empty</string>
 </resources>

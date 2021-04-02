@@ -1,17 +1,22 @@
 package io.houf.moneta.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,14 +47,16 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val context = LocalContext.current
 
     TopBar(Portfolio) {
-        IconButton({
-            sharePortfolio(
-                context,
-                value,
-                sign
-            )
-        }) {
-            Icon(Icons.Outlined.Share, stringResource(R.string.share))
+        if (listings.isNotEmpty()) {
+            IconButton({
+                sharePortfolio(
+                    context,
+                    value,
+                    sign
+                )
+            }) {
+                Icon(Icons.Outlined.Share, stringResource(R.string.share))
+            }
         }
         IconButton({
             openActivity(
@@ -61,23 +68,41 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
             Icon(Icons.Outlined.Settings, stringResource(R.string.settings))
         }
     }
-    Price(
-        value = value,
-        change = change,
-        sign = sign,
-        blur = blur
-    )
-    LazyVerticalGrid(
-        cells = GridCells.Adaptive(192.dp),
-        contentPadding = PaddingValues(16.dp)
-    ) {
-        items(listings) { (listing, portfolio) ->
-            Card(title = listing.name, subtitle = portfolio.amount.formatNumber()) {
-                openActivity(
-                    context,
-                    ListingActivity::class.java,
-                    ListingData(listing)
-                )
+    if (listings.isEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.AccountBalanceWallet,
+                contentDescription = null,
+                tint = LocalContentColor.current.copy(alpha = 0.5f),
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(stringResource(R.string.portfolio_empty))
+        }
+    } else {
+        Price(
+            value = value,
+            change = change,
+            sign = sign,
+            blur = blur
+        )
+        LazyVerticalGrid(
+            cells = GridCells.Adaptive(192.dp),
+            contentPadding = PaddingValues(16.dp)
+        ) {
+            items(listings) { (listing, portfolio) ->
+                Card(title = listing.name, subtitle = portfolio.amount.formatNumber()) {
+                    openActivity(
+                        context,
+                        ListingActivity::class.java,
+                        ListingData(listing)
+                    )
+                }
             }
         }
     }

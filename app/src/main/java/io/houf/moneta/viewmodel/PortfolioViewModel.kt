@@ -23,7 +23,7 @@ class PortfolioViewModel @Inject constructor(
         api.listings.combineWith(database.portfolio().get())
     ) { (listings, portfolio) ->
         listings?.mapNotNull { listing ->
-            val p = portfolio?.find { it.id == listing.slug.toLowerCase(Locale.ROOT) }
+            val p = portfolio?.find { it.id.equals(listing.slug, true) }
 
             if (p != null && p.amount > 0) PortfolioModel(listing, p) else null
         } ?: listOf()
@@ -61,9 +61,7 @@ class PortfolioViewModel @Inject constructor(
 
     @Composable
     fun sign() =
-        Transformations.map(api.listings.combineWith(api.currencies)) { (listings, currencies) ->
-            currencies?.find { currency ->
-                if (listings != null) currency.symbol == listings.first().quote.keys.first() else false
-            }?.sign ?: ""
+        Transformations.map(api.currencies.combineWith(settings.currency)) { (currencies, currency) ->
+            currencies?.find { it.symbol.equals(currency, true)  }?.sign ?: ""
         }.observeAsState("")
 }
