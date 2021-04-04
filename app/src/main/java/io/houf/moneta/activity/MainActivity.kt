@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.houf.moneta.MonetaApp
 import io.houf.moneta.R
 import io.houf.moneta.service.ApiService
+import io.houf.moneta.util.observeOnce
 import io.houf.moneta.util.openListing
 import io.houf.moneta.view.theme.MonetaTheme
 import javax.inject.Inject
@@ -28,16 +29,26 @@ class MainActivity : ComponentActivity() {
                 MonetaApp()
             }
         }
+
+        api.listings.observeOnce(this, {
+            onNewIntent(intent)
+        }) { listings ->
+            listings?.isNotEmpty() ?: false
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
         when (intent?.action) {
-            Intent.ACTION_SEND -> {
-                val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return
+            Intent.ACTION_VIEW -> {
+                val data = intent.data?.pathSegments ?: return
 
-                Log.d("moneta.share", "Received text: $text")
+                Log.d("moneta.share", "Received data: $data")
 
-                openListing(applicationContext, api, text)
+                if (data.size != 2) {
+                    return
+                }
+
+                openListing(applicationContext, api, data[1])
             }
         }
     }

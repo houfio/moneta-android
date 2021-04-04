@@ -7,10 +7,8 @@ import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
 import io.houf.moneta.service.ApiService
 
-fun openListing(context: Context, api: ApiService, text: String) {
-    val listing = api.listings.value?.find { listing ->
-        text.contains(listing.symbol, true) || text.contains(listing.name, true)
-    }
+fun openListing(context: Context, api: ApiService, slug: String) {
+    val listing = api.listings.value?.find { it.slug == slug }
 
     if (listing != null) {
         openActivity(

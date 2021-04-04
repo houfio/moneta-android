@@ -62,6 +62,6 @@ class PortfolioViewModel @Inject constructor(
     @Composable
     fun sign() =
         Transformations.map(api.currencies.combineWith(settings.currency)) { (currencies, currency) ->
-            currencies?.find { it.symbol.equals(currency, true)  }?.sign ?: ""
+            currencies?.find { it.symbol.equals(currency, true) }?.sign ?: ""
         }.observeAsState("")
 }
