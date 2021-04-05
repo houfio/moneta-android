@@ -19,10 +19,8 @@ class ApiRequest<T>(
     private val cls: Class<T>,
     private val onSuccess: (T) -> Unit,
     private val onCache: ((String) -> Unit)? = null
-) : Request<T>(Method.GET, url, { error ->
-    val message = error.localizedMessage ?: "Unknown request error"
-
-    Log.d("moneta.request", "Network request failed: $message")
+) : Request<T>(Method.GET, url, { e ->
+    Log.d("moneta.request", "Network request failed", e)
     Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show()
 }) {
     override fun getHeaders() = mutableMapOf("X-CMC_PRO_API_KEY" to BuildConfig.API_KEY)
