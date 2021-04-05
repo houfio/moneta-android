@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -21,30 +21,32 @@ import io.houf.moneta.util.qr.generateQr
 
 @Composable
 fun QrDialog(listings: List<PortfolioModel>, onDismiss: () -> Unit) {
-    val qr = remember(listings) {
+    var qr by remember { mutableStateOf<ImageBitmap?>(null) }
+
+    LaunchedEffect(listings) {
         val portfolio = listings.map { it.portfolio }
         val data = encodePortfolio(portfolio)
 
-        generateQr(data)
+        generateQr(data) { qr = it }
     }
 
-    Dialog(onDismiss) {
-        Surface(
-            elevation = 16.dp,
-            shape = RoundedCornerShape(6.dp)
-        ) {
-            Column(Modifier.padding(16.dp).padding(bottom = 16.dp)) {
-                if (qr != null) {
+    if (qr != null) {
+        Dialog(onDismiss) {
+            Surface(
+                elevation = 16.dp,
+                shape = RoundedCornerShape(6.dp)
+            ) {
+                Column(Modifier.padding(16.dp).padding(bottom = 16.dp)) {
                     Image(
-                        bitmap = qr,
+                        bitmap = qr!!,
                         contentDescription = null,
                         modifier = Modifier.fillMaxWidth()
                     )
+                    Text(
+                        text = stringResource(R.string.export_portfolio),
+                        textAlign = TextAlign.Center
+                    )
                 }
-                Text(
-                    text = stringResource(R.string.export_portfolio),
-                    textAlign = TextAlign.Center
-                )
             }
         }
     }
