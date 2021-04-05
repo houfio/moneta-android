@@ -1,4 +1,4 @@
-package io.houf.moneta.util
+package io.houf.moneta.util.qr
 
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage

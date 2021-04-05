@@ -10,8 +10,8 @@ import io.houf.moneta.service.ApiService
 import io.houf.moneta.service.DatabaseService
 import io.houf.moneta.service.SettingsService
 import io.houf.moneta.storage.Portfolio
-import io.houf.moneta.util.combineWith
-import io.houf.moneta.util.deserializeData
+import io.houf.moneta.util.data.combineWith
+import io.houf.moneta.util.data.decodeListings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -46,7 +46,12 @@ class PortfolioViewModel @Inject constructor(
     fun value() = value.observeAsState(0.0)
 
     @Composable
-    fun change() = Transformations.map(listings.combineWith(value, settings.range)) { (portfolio, value, range) ->
+    fun change() = Transformations.map(
+        listings.combineWith(
+            value,
+            settings.range
+        )
+    ) { (portfolio, value, range) ->
         portfolio?.fold(0.0) { acc, p ->
             if (value == null || range == null) {
                 return@fold acc
@@ -75,7 +80,7 @@ class PortfolioViewModel @Inject constructor(
         val list: List<Portfolio>
 
         try {
-            list = deserializeData(data)
+            list = decodeListings(data)
         } catch (e: Exception) {
             onResult(false)
 

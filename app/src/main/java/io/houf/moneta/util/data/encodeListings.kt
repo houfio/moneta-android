@@ -1,8 +1,8 @@
-package io.houf.moneta.util
+package io.houf.moneta.util.data
 
 import io.houf.moneta.storage.Portfolio
 
-fun serializeData(data: List<Portfolio>): String {
+fun encodeListings(data: List<Portfolio>): String {
     return data.joinToString(",") { entry ->
         "${entry.id};${entry.amount.toBigDecimal().toPlainString()}"
     }

@@ -13,7 +13,7 @@ import io.houf.moneta.model.ListingModel
 import io.houf.moneta.model.ListingsModel
 import io.houf.moneta.storage.Cache
 import io.houf.moneta.util.ApiRequest
-import io.houf.moneta.util.decodeJson
+import io.houf.moneta.util.data.decodeJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -18,16 +18,18 @@ fun getLocation(context: Context, onSuccess: (String?) -> Unit) {
     val locationService = LocationServices.getFusedLocationProviderClient(context)
     val geocoder = Geocoder(context, Locale.ENGLISH)
 
-    locationService.getCurrentLocation(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY, null).addOnSuccessListener { location ->
-        if (location == null) {
-            return@addOnSuccessListener onSuccess(null)
-        }
+    locationService.getCurrentLocation(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY, null)
+        .addOnSuccessListener { location ->
+            if (location == null) {
+                return@addOnSuccessListener onSuccess(null)
+            }
 
-        val address = geocoder.getFromLocation(location.latitude, location.longitude, 1).firstOrNull()
-            ?: return@addOnSuccessListener onSuccess(null)
+            val address =
+                geocoder.getFromLocation(location.latitude, location.longitude, 1).firstOrNull()
+                    ?: return@addOnSuccessListener onSuccess(null)
 
-        onSuccess(address.locality)
-    }.addOnCanceledListener {
+            onSuccess(address.locality)
+        }.addOnCanceledListener {
         Log.d("moneta.share", "Failed to retrieve device location")
 
         onSuccess(null)

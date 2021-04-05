@@ -1,4 +1,4 @@
-package io.houf.moneta.view.component
+package io.houf.moneta.view.component.camera
 
 import android.util.Log
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
-import io.houf.moneta.util.QrAnalyser
+import io.houf.moneta.util.qr.QrAnalyser
 import java.util.concurrent.Executors
 
 @Composable
@@ -52,7 +52,11 @@ fun QrCamera(
                         imageAnalysis
                     )
                 } catch (e: Exception) {
-                    Log.d("moneta.camera", "Camera lifecycle binding failed: ${e.localizedMessage}", e)
+                    Log.d(
+                        "moneta.camera",
+                        "Camera lifecycle binding failed: ${e.localizedMessage}",
+                        e
+                    )
                     onError()
                 }
             }, context.mainExecutor)

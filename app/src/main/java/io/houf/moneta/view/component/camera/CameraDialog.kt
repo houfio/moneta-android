@@ -1,4 +1,4 @@
-package io.houf.moneta.view.component
+package io.houf.moneta.view.component.camera
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.height

@@ -1,4 +1,4 @@
-package io.houf.moneta.util
+package io.houf.moneta.util.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData

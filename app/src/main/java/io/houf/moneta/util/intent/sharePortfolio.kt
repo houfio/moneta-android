@@ -1,8 +1,9 @@
-package io.houf.moneta.util
+package io.houf.moneta.util.intent
 
 import android.content.Context
 import android.content.Intent
 import io.houf.moneta.R
+import io.houf.moneta.util.formatNumber
 
 fun sharePortfolio(
     context: Context,

@@ -1,4 +1,4 @@
-package io.houf.moneta.util
+package io.houf.moneta.util.intent
 
 import android.content.Context
 import android.widget.Toast

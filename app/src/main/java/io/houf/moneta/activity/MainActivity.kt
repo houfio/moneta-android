@@ -9,8 +9,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.houf.moneta.MonetaApp
 import io.houf.moneta.R
 import io.houf.moneta.service.ApiService
-import io.houf.moneta.util.observeOnce
-import io.houf.moneta.util.openListing
+import io.houf.moneta.util.data.observeOnce
+import io.houf.moneta.util.intent.openListing
 import io.houf.moneta.view.theme.MonetaTheme
 import javax.inject.Inject
 

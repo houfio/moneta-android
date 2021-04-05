@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.houf.moneta.model.ListingModel
 import io.houf.moneta.service.ApiService
 import io.houf.moneta.service.SettingsService
-import io.houf.moneta.util.combineWith
+import io.houf.moneta.util.data.combineWith
 import javax.inject.Inject
 
 @HiltViewModel

@@ -20,7 +20,7 @@ import io.houf.moneta.R
 import io.houf.moneta.Screen
 import io.houf.moneta.activity.ListingActivity
 import io.houf.moneta.activity.ListingData
-import io.houf.moneta.util.openActivity
+import io.houf.moneta.util.intent.openActivity
 import io.houf.moneta.view.component.*
 import io.houf.moneta.viewmodel.SearchViewModel
 

@@ -1,8 +1,8 @@
-package io.houf.moneta.view.component
+package io.houf.moneta.view.component.portfolio
 
 import android.Manifest
 import androidx.activity.compose.registerForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -12,13 +12,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import io.houf.moneta.R
 import io.houf.moneta.util.getLocation
-import io.houf.moneta.util.sharePortfolio
+import io.houf.moneta.util.intent.sharePortfolio
 
 @Composable
 fun ShareButton(value: Double, sign: String) {
     val context = LocalContext.current
 
-    val requestLocation = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+    val requestLocation = registerForActivityResult(RequestPermission()) {
         getLocation(context) { location ->
             sharePortfolio(
                 context,

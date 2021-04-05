@@ -28,8 +28,12 @@ import io.houf.moneta.activity.ListingData
 import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.activity.SettingsData
 import io.houf.moneta.util.formatNumber
-import io.houf.moneta.util.openActivity
-import io.houf.moneta.view.component.*
+import io.houf.moneta.util.intent.openActivity
+import io.houf.moneta.view.component.Card
+import io.houf.moneta.view.component.Price
+import io.houf.moneta.view.component.TopBar
+import io.houf.moneta.view.component.portfolio.QrButton
+import io.houf.moneta.view.component.portfolio.ShareButton
 import io.houf.moneta.viewmodel.PortfolioViewModel
 
 @OptIn(ExperimentalFoundationApi::class)

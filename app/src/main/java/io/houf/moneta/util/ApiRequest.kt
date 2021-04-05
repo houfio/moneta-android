@@ -10,6 +10,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import io.houf.moneta.BuildConfig
 import io.houf.moneta.R
+import io.houf.moneta.util.data.decodeJson
 import java.nio.charset.Charset
 
 class ApiRequest<T>(
