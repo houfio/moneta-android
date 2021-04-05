@@ -6,6 +6,7 @@
     <string name="settings">Instellingen</string>
     <string name="save">Opslaan</string>
     <string name="share">Delen</string>
+    <string name="import_portfolio">Importeren</string>
     <string name="share_message">Wow, mijn portefeuille is %s waard! Ik hou zo erg van cryptomunten, ik weet zeker dat ik de rijkste persoon %s word! #moneta #crypto</string>
     <string name="share_location">in %s</string>
     <string name="share_location_fallback">ooit</string>
@@ -29,4 +30,7 @@
     <string name="unknown_listing">Onbekende cryptomunt</string>
     <string name="network_error">Netwerkfout</string>
     <string name="portfolio_empty">Jouw portefeuille is leeg</string>
+    <string name="camera_error">Geen toegang tot camera</string>
+    <string name="import_success">Portefeuille succesvol geïmporteerd</string>
+    <string name="import_error">Ongeldige QR code</string>
 </resources>

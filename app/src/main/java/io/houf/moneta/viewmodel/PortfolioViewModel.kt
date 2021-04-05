@@ -9,7 +9,13 @@ import io.houf.moneta.model.PortfolioModel
 import io.houf.moneta.service.ApiService
 import io.houf.moneta.service.DatabaseService
 import io.houf.moneta.service.SettingsService
+import io.houf.moneta.storage.Portfolio
 import io.houf.moneta.util.combineWith
+import io.houf.moneta.util.deserializeData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
@@ -17,7 +23,7 @@ import javax.inject.Inject
 class PortfolioViewModel @Inject constructor(
     private val api: ApiService,
     private val settings: SettingsService,
-    database: DatabaseService
+    private val database: DatabaseService
 ) : ViewModel() {
     private val listings = Transformations.map(
         api.listings.combineWith(database.portfolio().get())
@@ -64,4 +70,25 @@ class PortfolioViewModel @Inject constructor(
         Transformations.map(api.currencies.combineWith(settings.currency)) { (currencies, currency) ->
             currencies?.find { it.symbol.equals(currency, true) }?.sign ?: ""
         }.observeAsState("")
+
+    fun importData(data: String, onResult: (Boolean) -> Unit) {
+        val list: List<Portfolio>
+
+        try {
+            list = deserializeData(data)
+        } catch (e: Exception) {
+            onResult(false)
+
+            return
+        }
+
+        GlobalScope.launch {
+            database.portfolio().clear()
+            database.portfolio().insertMany(list)
+
+            withContext(Dispatchers.Main) {
+                onResult(true)
+            }
+        }
+    }
 }

@@ -1,8 +1,6 @@
 package io.houf.moneta.view
 
-import android.Manifest
-import androidx.activity.compose.registerForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -15,7 +13,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,12 +28,8 @@ import io.houf.moneta.activity.ListingData
 import io.houf.moneta.activity.SettingsActivity
 import io.houf.moneta.activity.SettingsData
 import io.houf.moneta.util.formatNumber
-import io.houf.moneta.util.getLocation
 import io.houf.moneta.util.openActivity
-import io.houf.moneta.util.sharePortfolio
-import io.houf.moneta.view.component.Card
-import io.houf.moneta.view.component.Price
-import io.houf.moneta.view.component.TopBar
+import io.houf.moneta.view.component.*
 import io.houf.moneta.viewmodel.PortfolioViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -49,23 +42,18 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val blur by viewModel.blur()
     val sign by viewModel.sign()
     val context = LocalContext.current
-    val request = registerForActivityResult(RequestPermission()) {
-        getLocation(context) { location ->
-            sharePortfolio(
-                context,
-                value,
-                sign,
-                location
-            )
-        }
-    }
 
     TopBar(Portfolio) {
         if (listings.isNotEmpty()) {
-            IconButton({
-                request.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            }) {
-                Icon(Icons.Outlined.Share, stringResource(R.string.share))
+            ShareButton(value, sign)
+        }
+        QrButton(listings.isNotEmpty()) { data ->
+            viewModel.importData(data) { success ->
+                Toast.makeText(
+                    context,
+                    if (success) R.string.import_success else R.string.import_error,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         IconButton({

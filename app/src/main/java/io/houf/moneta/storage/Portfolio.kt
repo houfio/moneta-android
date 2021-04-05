@@ -19,4 +19,10 @@ interface PortfolioDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(portfolio: Portfolio)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMany(portfolio: List<Portfolio>)
+
+    @Query("delete from portfolio")
+    suspend fun clear()
 }
