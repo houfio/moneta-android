@@ -12,13 +12,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
-fun Camera(getCases: () -> Array<UseCase>, onError: () -> Unit) {
+fun Camera(getCases: () -> Array<UseCase> = { arrayOf() }, onError: () -> Unit) {
     val owner = LocalLifecycleOwner.current
 
     AndroidView(
         factory = { context ->
-            val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-            val previewView = PreviewView(context).apply {
+            val providerFuture = ProcessCameraProvider.getInstance(context)
+            val view = PreviewView(context).apply {
                 scaleType = PreviewView.ScaleType.FILL_CENTER
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -27,15 +27,15 @@ fun Camera(getCases: () -> Array<UseCase>, onError: () -> Unit) {
                 implementationMode = PreviewView.ImplementationMode.COMPATIBLE
             }
 
-            cameraProviderFuture.addListener({
-                val cameraProvider = cameraProviderFuture.get()
+            providerFuture.addListener({
+                val provider = providerFuture.get()
                 val preview = Preview.Builder()
                     .build()
-                    .also { it.setSurfaceProvider(previewView.surfaceProvider) }
+                    .also { it.setSurfaceProvider(view.surfaceProvider) }
 
                 try {
-                    cameraProvider.unbindAll()
-                    cameraProvider.bindToLifecycle(
+                    provider.unbindAll()
+                    provider.bindToLifecycle(
                         owner,
                         CameraSelector.DEFAULT_BACK_CAMERA,
                         preview,
@@ -47,7 +47,7 @@ fun Camera(getCases: () -> Array<UseCase>, onError: () -> Unit) {
                 }
             }, context.mainExecutor)
 
-            previewView
+            view
         }
     )
 }

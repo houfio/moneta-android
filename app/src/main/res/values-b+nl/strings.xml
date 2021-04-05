@@ -7,6 +7,7 @@
     <string name="save">Opslaan</string>
     <string name="share">Delen</string>
     <string name="import_portfolio">Importeren</string>
+    <string name="export_portfolio">Scan deze QR code met de Moneta app op het andere apparaat.</string>
     <string name="share_message">Wow, mijn portefeuille is %s waard! Ik hou zo erg van cryptomunten, ik weet zeker dat ik de rijkste persoon %s word! #moneta #crypto</string>
     <string name="share_location">in %s</string>
     <string name="share_location_fallback">ooit</string>

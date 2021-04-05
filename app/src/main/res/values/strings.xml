@@ -7,6 +7,7 @@
     <string name="save">Save</string>
     <string name="share">Share</string>
     <string name="import_portfolio">Import</string>
+    <string name="export_portfolio">Scan this QR code using the Moneta app on the other device.</string>
     <string name="share_message">Wow, my portfolio is at %s! I sure do love cryptocurrencies, soon I\'ll be the richest person %s! #moneta #crypto</string>
     <string name="share_location">in %s</string>
     <string name="share_location_fallback">around</string>

@@ -8,21 +8,21 @@ import java.util.concurrent.Executors
 
 @Composable
 fun QrCamera(onSuccess: (String) -> Unit, onError: () -> Unit) {
-    val cameraExecutor = Executors.newSingleThreadExecutor()
+    val executor = Executors.newSingleThreadExecutor()
 
     Camera(
         getCases = {
             arrayOf(
                 ImageAnalysis.Builder()
                     .build()
-                    .also { it.setAnalyzer(cameraExecutor, QrAnalyser(onSuccess, onError)) })
+                    .also { it.setAnalyzer(executor, QrAnalyser(onSuccess, onError)) })
         },
         onError = onError
     )
 
     DisposableEffect(Unit) {
         onDispose {
-            cameraExecutor.shutdown()
+            executor.shutdown()
         }
     }
 }

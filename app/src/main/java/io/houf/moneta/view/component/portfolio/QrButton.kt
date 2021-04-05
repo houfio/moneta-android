@@ -15,7 +15,7 @@ import io.houf.moneta.R
 import io.houf.moneta.view.component.camera.CameraDialog
 
 @Composable
-fun QrButton(enableExport: Boolean, importData: (String) -> Unit) {
+fun QrButton(importData: (String) -> Unit) {
     var open by remember { mutableStateOf(false) }
     val context = LocalContext.current
 

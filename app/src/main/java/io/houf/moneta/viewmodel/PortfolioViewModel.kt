@@ -2,6 +2,7 @@ package io.houf.moneta.viewmodel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +12,7 @@ import io.houf.moneta.service.DatabaseService
 import io.houf.moneta.service.SettingsService
 import io.houf.moneta.storage.Portfolio
 import io.houf.moneta.util.data.combineWith
-import io.houf.moneta.util.data.decodeListings
+import io.houf.moneta.util.data.decodePortfolio
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ class PortfolioViewModel @Inject constructor(
     private val settings: SettingsService,
     private val database: DatabaseService
 ) : ViewModel() {
-    private val listings = Transformations.map(
+    private val _listings = Transformations.map(
         api.listings.combineWith(database.portfolio().get())
     ) { (listings, portfolio) ->
         listings?.mapNotNull { listing ->
@@ -34,21 +35,21 @@ class PortfolioViewModel @Inject constructor(
             if (p != null && p.amount > 0) PortfolioModel(listing, p) else null
         } ?: listOf()
     }
-
-    private val value = Transformations.map(listings) { listings ->
+    private val _value = Transformations.map(_listings) { listings ->
         listings.fold(0.0) { acc, p -> acc + p.listing.q.price * p.portfolio.amount }
     }
+    private var _open = MutableLiveData(false)
 
     @Composable
-    fun listings() = listings.observeAsState(listOf())
+    fun listings() = _listings.observeAsState(listOf())
 
     @Composable
-    fun value() = value.observeAsState(0.0)
+    fun value() = _value.observeAsState(0.0)
 
     @Composable
     fun change() = Transformations.map(
-        listings.combineWith(
-            value,
+        _listings.combineWith(
+            _value,
             settings.range
         )
     ) { (portfolio, value, range) ->
@@ -76,11 +77,18 @@ class PortfolioViewModel @Inject constructor(
             currencies?.find { it.symbol.equals(currency, true) }?.sign ?: ""
         }.observeAsState("")
 
+    @Composable
+    fun open() = _open.observeAsState(false)
+
+    fun setOpen(open: Boolean) {
+        _open.value = open
+    }
+
     fun importData(data: String, onResult: (Boolean) -> Unit) {
         val list: List<Portfolio>
 
         try {
-            list = decodeListings(data)
+            list = decodePortfolio(data)
         } catch (e: Exception) {
             onResult(false)
 

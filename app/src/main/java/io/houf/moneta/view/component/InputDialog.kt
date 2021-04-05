@@ -26,7 +26,7 @@ fun InputDialog(
     var text by remember { mutableStateOf(initial) }
 
     Dialog({ onDismiss(initial) }) {
-        Surface(elevation = 24.dp, shape = RoundedCornerShape(6.dp)) {
+        Surface(elevation = 16.dp, shape = RoundedCornerShape(6.dp)) {
             Column(Modifier.padding(16.dp)) {
                 Text(
                     text = title,

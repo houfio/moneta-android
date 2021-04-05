@@ -2,7 +2,7 @@ package io.houf.moneta.util.data
 
 import io.houf.moneta.storage.Portfolio
 
-fun decodeListings(data: String): List<Portfolio> {
+fun decodePortfolio(data: String): List<Portfolio> {
     val result = mutableListOf<Portfolio>()
     val items = data.split(",")
 

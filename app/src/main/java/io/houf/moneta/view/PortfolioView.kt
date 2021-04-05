@@ -33,6 +33,7 @@ import io.houf.moneta.view.component.Card
 import io.houf.moneta.view.component.Price
 import io.houf.moneta.view.component.TopBar
 import io.houf.moneta.view.component.portfolio.QrButton
+import io.houf.moneta.view.component.portfolio.QrDialog
 import io.houf.moneta.view.component.portfolio.ShareButton
 import io.houf.moneta.viewmodel.PortfolioViewModel
 
@@ -45,13 +46,20 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
     val currencies by viewModel.currencies()
     val blur by viewModel.blur()
     val sign by viewModel.sign()
+    val open by viewModel.open()
     val context = LocalContext.current
+
+    if (open) {
+        QrDialog(listings) {
+            viewModel.setOpen(false)
+        }
+    }
 
     TopBar(Portfolio) {
         if (listings.isNotEmpty()) {
             ShareButton(value, sign)
         }
-        QrButton(listings.isNotEmpty()) { data ->
+        QrButton { data ->
             viewModel.importData(data) { success ->
                 Toast.makeText(
                     context,
@@ -92,7 +100,9 @@ fun PortfolioView(viewModel: PortfolioViewModel = hiltNavGraphViewModel()) {
             change = change,
             sign = sign,
             blur = blur
-        )
+        ) {
+            viewModel.setOpen(true)
+        }
         LazyVerticalGrid(
             cells = GridCells.Adaptive(192.dp),
             contentPadding = PaddingValues(16.dp)

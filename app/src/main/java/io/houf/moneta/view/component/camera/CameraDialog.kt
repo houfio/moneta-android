@@ -12,15 +12,13 @@ import androidx.compose.ui.window.Dialog
 import io.houf.moneta.R
 
 @Composable
-fun CameraDialog(
-    onDismiss: (String?) -> Unit,
-) {
+fun CameraDialog(onDismiss: (String?) -> Unit) {
     val context = LocalContext.current
 
     Dialog({ onDismiss(null) }) {
         Surface(
             modifier = Modifier.height(512.dp),
-            elevation = 24.dp,
+            elevation = 16.dp,
             shape = RoundedCornerShape(6.dp)
         ) {
             QrCamera(
